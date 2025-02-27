@@ -1,0 +1,12 @@
+import { Hero } from "../../components/Hero/Hero"
+import { SearchBlog } from "../../components/SearchBlog/SearchBlog"
+
+export const Home = () => {
+  return (
+    <div>
+      <Hero/>
+      <SearchBlog/>
+    </div>
+  )
+}
+
