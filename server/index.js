@@ -1,11 +1,17 @@
-import express from 'express'
-import dotenv from 'dotenv'
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
 dotenv.config();
 
-const app=express();
-const PORT=process.env.PORT
+const app = express();
+const PORT = process.env.PORT;
+const mongoDbUrl = process.env.mongoDbUrl;
 
-app.listen(PORT,()=>{
-    console.log(`Server started on port ${PORT}`);
-    
-})
+app.use(express.json());
+app.use(cors());
+import { connectDb } from "./database/connectDb.js";
+
+app.listen(PORT, () => {
+  connectDb(mongoDbUrl);
+  console.log(`Server started on port ${PORT}`);
+});
