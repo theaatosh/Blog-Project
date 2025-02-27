@@ -1,4 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 @import "tailwindcss";
+
 
 *{
     padding: 0;
@@ -7,11 +10,16 @@
 }
 
 :root{
-    --primary-color:#343A40
-    --secondary-color:#FF6B6B
-    --skin-color:#E3D5C9
+    --primary-color: #343A40;
+    --secondary-color: #FF6B6B;
+    --skin-color: #E3D5C9;
 }
 
-li{
+body {
+    background-color: var(--skin-color);
+    font-family: "Poppins", sans-serif;
+}
+
+li {
     list-style: none;
 }
