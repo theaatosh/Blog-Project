@@ -4,7 +4,6 @@
     background-image: url('blog.png');
     background-repeat: no-repeat;
     background-size: cover;
-
     position: relative;
 }
 .layer_container{
@@ -14,7 +13,10 @@
     align-items: center;
     height: 100%;
     width: 100%;
-    background-color: #e3d5c9b5;
+    backdrop-filter:blur(12px);
+  
+    /* background-color: #e3d5c9b5; */
+    background-color: rgba(0, 0, 0, 0.386);
 }
 .inner_container{
     width: 50%;
@@ -25,12 +27,13 @@
 
 .heading{
     color:#FF6B6B ;
-    font-size: 1.5rem;
+    font-size: 2rem;
     font-weight: 600;
 }
 
 .para{
     font-weight: 600;
+    font-size: 1.3rem;
 }
 .btn_container{
     display: flex;
@@ -65,5 +68,8 @@
     }
     .heading{
         font-size: 1.5rem;
+    }
+    .para{
+        font-size: 1rem;
     }
 }

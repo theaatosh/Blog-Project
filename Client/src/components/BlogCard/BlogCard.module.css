@@ -1,0 +1,63 @@
+.card_container{
+    background-color: white;
+    /* max-width: 300px; */
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border-radius: 20px;
+ 
+
+}
+.img_con{
+    width: 100%;
+
+    & img{
+        width: 100%;
+    }
+}
+.blog_details{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 10px 10px 10px;
+    & h3{
+        font-weight: 600;
+    }
+
+    & h2{
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+    & p{
+        color: gray;
+    }
+}
+
+
+.lower_con{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    
+
+    & .lower_left{
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        & .profile_details{
+            display: flex;
+            flex-direction: column;
+        }
+    }
+}
+.lower_con .lower_right{
+   
+    & .lower_btn{
+        border: 2px solid #FF6B6B;
+        padding: 10px 10px;
+        border-radius: 30px;
+        background-color:#F8D7D8
+    }
+}
