@@ -11,6 +11,9 @@ app.use(express.json());
 app.use(cors());
 import { connectDb } from "./database/connectDb.js";
 
+import loginRegisterRoute from "./route/loginRegisterRoute.js";
+app.use("/user", loginRegisterRoute);
+
 app.listen(PORT, () => {
   connectDb(mongoDbUrl);
   console.log(`Server started on port ${PORT}`);
