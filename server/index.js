@@ -14,6 +14,12 @@ import { connectDb } from "./database/connectDb.js";
 import loginRegisterRoute from "./route/loginRegisterRoute.js";
 app.use("/user", loginRegisterRoute);
 
+import createBlogRoute from "./route/createBlogRoute.js";
+app.use("/createblog", createBlogRoute);
+
+import commentRoute from "./route/commentRoute.js";
+app.use("/comment", commentRoute);
+
 app.listen(PORT, () => {
   connectDb(mongoDbUrl);
   console.log(`Server started on port ${PORT}`);
