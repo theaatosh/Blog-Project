@@ -11,7 +11,7 @@ export const comment = async (req, res) => {
     const postExists = await Blog.findById(postId);
     if (!postExists) {
       return res.status(400).json({ message: "Post not found" });
-    }   
+    }
     const newComment = new Comment({
       postId,
       userId,
