@@ -29,9 +29,9 @@ const blog = new mongoose.Schema(
       ref: "User",
       default: [],
     },
-    blogRating:{
+    // blogRating:{
       
-    }
+    // }
   },
   { timestamps: true }
 );
