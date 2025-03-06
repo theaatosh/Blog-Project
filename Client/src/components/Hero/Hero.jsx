@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import styles from '../Hero/Hero.module.css'
 
 export const Hero = () => {
@@ -11,8 +12,8 @@ export const Hero = () => {
         <p className={styles.para}>Join a community of passionate writers and curious readers. Discover insightful blogs, trending topics, and expert opinions—all in one place</p>
 
         <div className={styles.btn_container}>
-            <button className={styles.btn1}>Start Reading</button>
-            <button className={styles.btn2}>Write a Blog</button>
+           <Link> <button className={styles.btn1}>Start Reading</button></Link>
+            <Link to='/create-blog'><button className={styles.btn2}>Write a Blog</button></Link>
         </div>
     </div>
         </div>
