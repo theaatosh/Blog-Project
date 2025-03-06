@@ -19,7 +19,7 @@
 .logo_div{
     color: #FF6B6B;
     font-weight: 600;
-    font-size:2rem;
+    font-size:2.7vw;
 }
 
 .nav_list{
@@ -31,7 +31,7 @@
 
 .list{
     color: white;
-    font-size: 1.5rem;
+    font-size: 2vw;
     padding: 1px 20px;
     border-radius: 20px;
     cursor: pointer;

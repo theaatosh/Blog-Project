@@ -1,0 +1,133 @@
+footer{
+    width: 100%;
+    background-color: rgba(52, 58, 64, 1);
+    padding: 2rem 5rem;
+}
+
+.upper_div{
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        border-bottom: 1px solid #fff;
+        padding-bottom: 1.5rem;
+
+        & h2{
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        & .icons_div{
+            display: flex;
+            gap: 1rem;
+
+            &  .icon{
+                font-size: 1.5rem;
+                color:#FF6B6B; 
+            }
+        }
+}
+
+
+.lower_div{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.div_1{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    & h2{
+        color: #FF6B6B;
+        font-size: 1.3rem;
+    }
+
+    & p{
+        color: #fff
+    }
+
+}
+.div_2{
+    display: flex;
+    flex-direction: column; 
+    gap: 0.5rem;
+
+    & h2{
+        color: #FF6B6B;
+
+        font-size: 1.3rem;
+    }
+    & ul{
+        color:#fff
+    }
+
+}
+.div_3{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    & h2{
+        color: #FF6B6B;
+        font-size: 1.3rem;
+    }
+
+    & .input_con{
+        background-color: #fff;
+        
+        border-radius: 10px;
+        position: relative;
+        
+        & input{
+            padding: 0.7rem 2rem 0.7rem 1rem;
+            width: 100%;
+            outline: none;
+
+        }
+        & .send_icon{
+            position: absolute;
+            top: 35%;
+            right: 0.5rem;
+            font-size: 1.2rem;
+            color: rgb(62, 62, 170);
+            cursor: pointer;
+        }
+    }
+
+}
+
+@media (max-width:640px) {
+    footer{
+        padding: 1rem;
+    }
+    .upper_div{
+        gap: 1rem;
+    }
+    .lower_div{
+        gap: 1rem;
+        flex-direction: column;
+
+        & h2{
+        font-size: 1rem;
+        }
+
+        & p{
+            font-size: 0.8rem;
+        }
+
+
+        & ul{
+            font-size: 0.8rem;
+        }
+    }
+    
+}
+@media (max-width:900px) {
+    footer{
+        padding: 1.2rem;
+    }
+    
+}
