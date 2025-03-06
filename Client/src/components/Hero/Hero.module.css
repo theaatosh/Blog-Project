@@ -46,15 +46,17 @@
     border-radius: 20px;
     background-color:#343A40 ;
     color: white;
-    padding: 10px 60px;
+    padding: 10px 40px;
     font-size:1.2rem;
+    width: 100%;
 }
 .btn2{
     border-radius: 20px;
     background-color:#FF6B6B ;
     color: white;
-    padding: 10px 60px;
+    padding: 10px 40px;
     font-size:1.2rem;
+    width: 100%;
 }
 
 @media (max-width:740px) {
@@ -72,4 +74,11 @@
     .para{
         font-size: 1rem;
     }
+}
+@media (max-width:1000px) {
+    
+    .inner_container{
+        width: 70%;
+    }
+   
 }
