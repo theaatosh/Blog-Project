@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { IoSend } from "react-icons/io5";
 import styles from "./SingleBlog.module.css";
+import { storeContext } from "../../context/StoreContext";
 
 const SingleBlog = () => {
+  const{url}=useContext(storeContext)
   const [singleBlog, setSingleBlog] = useState({
     title: "The Future of Web Development",
     author: "John Doe",
@@ -15,6 +17,21 @@ const SingleBlog = () => {
       "/singleBlog.png",
     publishedAt: "25th january,2025",
   });
+
+  const fetchSingleBlog=async()=>{
+    try{
+
+      const res=await axios.get(`${url}/api halne`);
+      setSingleBlog(res.data)
+    }catch(err){
+      console.log(err.response.message.data);
+      
+    }
+  }
+  useEffect(()=>{
+   fetchSingleBlog()
+
+  },[])
 
   return (
     <div className={styles.outer_container}>
