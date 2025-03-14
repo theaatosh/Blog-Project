@@ -7,7 +7,7 @@ export const Hero = () => {
         <div className={styles.layer_container}>
 
     <div className={styles.inner_container}>
-        <h2 className={styles.heading}>"Unleash Ideas, Explore Stories, and Share Knowledge!"</h2>
+        <h2 className={styles.heading}>&quot; Unleash Ideas, Explore Stories, and Share Knowledge! &quot;</h2>
 
         <p className={styles.para}>Join a community of passionate writers and curious readers. Discover insightful blogs, trending topics, and expert opinions—all in one place</p>
 
