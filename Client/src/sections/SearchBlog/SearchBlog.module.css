@@ -164,6 +164,7 @@
 @media (max-width:740px) {
     .blog_list{
         grid-template-columns: 1fr;
+        padding: 10px 10px;
     }
     .right_con{
         & p{

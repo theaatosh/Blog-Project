@@ -19,7 +19,7 @@
 .logo_div{
     color: #FF6B6B;
     font-weight: 600;
-    font-size:2rem;
+    font-size:1.8rem;
 }
 
 .nav_list{
@@ -31,7 +31,7 @@
 
 .list{
     color: white;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     padding: 1px 20px;
     border-radius: 20px;
     cursor: pointer;
@@ -41,9 +41,18 @@
     }
 }
 
-.icons_div{
+.auth_div{
     display: flex;
-    gap: 2vw;
+    gap: 0.5rem;
+    
+    
+    & button{
+        background-color: white;
+        border: 2px solid white;
+        padding: 1px 12px;
+        border-radius: 10px;
+        color:black;
+    }
 }
 
 .icon{
@@ -60,11 +69,14 @@
 }
 .mobile_view_list{
     display: none;
-    position: absolute;
+    position: fixed;
     padding: 50px 20px;
    top: 67px;
    left: 0;
    right: 0;
+   bottom: 0;
+   z-index: 999;
+   
     width: 100%;
     background-color:rgb(53,59,64) ;
     color: white;
@@ -75,7 +87,7 @@
     flex-direction: column;
     gap:20px;
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
 
 }
 .mob_list{
@@ -88,7 +100,18 @@
     }
 }
 
+@media (max-width:900px) {
+    .logo_div{
+       
+        font-size:1.5rem;
+    }
+
+    .list{
+        font-size: 0.9rem;
+    }
+}
 @media (max-width:768px){
+    
     .mobile_view_list{
         display: block;
     }
@@ -101,7 +124,7 @@
     .small_menu_container{
         display: block;
     }
-    .icons_div{
+    .auth_div{
         display: none;
     }
     .nav_list{
