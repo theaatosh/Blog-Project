@@ -1,4 +1,4 @@
-import User from "../models/user.js";
+import {User} from "../model/user.js";
 
 export const verifyOtp = async (req, res) => {
   const { email, otp } = req.body;
