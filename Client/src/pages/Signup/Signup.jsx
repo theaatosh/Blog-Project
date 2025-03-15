@@ -1,40 +1,36 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import image from '../../assets/login.png'
-import './Signup.css'
+import image from "../../assets/login.png";
+import "./Signup.css";
 import { storeContext } from "../../context/StoreContext";
-import axios from 'axios'
+import axios from "axios";
 
-const Signup=()=> {
-  const {url}=useContext(storeContext)
-  
-  const [formData,setFormData]=useState({
-    fullname:"",
-    email:"",
-    password:"",
-    confirmPassword:""
-  })
+const Signup = () => {
+  const { url } = useContext(storeContext);
 
-  const handleOnChange=(e)=>{
-    const{name,value}=e.target
-    setFormData((prevData)=>({
-      ...prevData,[name]:value
-    }))
-  }
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
-  const handleSubmit =async (e) => {
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    
-    try{
-      const res=await axios.post(`${url}/user/register`);
+    try {
+      const res = await axios.post(`${url}/user/register`, formData);
       console.log(res);
-      
-    }catch(err){
+    } catch (err) {
       console.log(err);
-      
     }
-    
   };
 
   return (
@@ -50,8 +46,8 @@ const Signup=()=> {
             <label className="input-label">Full Name</label>
             <input
               type="text"
-              value={formData.fullname}
-              name="fullname"
+              value={formData.fullName}
+              name="fullName"
               onChange={handleOnChange}
               className="input-field"
               placeholder="Enter your full name"
@@ -107,5 +103,5 @@ const Signup=()=> {
       </div>
     </div>
   );
-}
-export default Signup
+};
+export default Signup;
