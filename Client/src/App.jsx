@@ -12,36 +12,33 @@ const App = () => {
   const router = createBrowserRouter([
     {
       path: "/",
-      // element: <MainLayout />,
+      element: <MainLayout />,
 
-      children:[
-        {index:true,
-          element:<Home/>
-        },
-        { path: "/aboutus", element: <AboutsUs/> },
+      children: [
+        { index: true, element: <Home /> },
+        { path: "/aboutus", element: <AboutsUs /> },
         {
           path: "/contactus",
           element: <ContactUs />,
         },
         {
           path: "/login",
-          element: <Login/>,
+          element: <Login />,
         },
         {
           path: "/signup",
-          element: <Signup/>,
+          element: <Signup />,
         },
         {
-          path:"/create-blog",
-          element:<CreateBlog/>
+          path: "/create-blog",
+          element: <CreateBlog />,
         },
         {
-          path:"/blog/:id",
-          element:<SingleBlog/>
-        }
-      ]
+          path: "/blog/:id",
+          element: <SingleBlog />,
+        },
+      ],
     },
-    
   ]);
 
   return <RouterProvider router={router} />;
