@@ -1,4 +1,6 @@
+import { status } from "init";
 import mongoose from "mongoose";
+import { type } from "os";
 
 const userSchema = new mongoose.Schema({
   fullName: {
@@ -13,6 +15,17 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
+  },
+  otp: {
+    type: String,
+  },
+  otpCreatedAt: {
+    type: Date,
+    default: Date.now, // Stores the timestamp when OTP is generated
+  },
+  status: {
+    type: String,
+    default: "pending",
   },
 });
 
