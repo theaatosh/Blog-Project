@@ -5,6 +5,8 @@ import ContactUs from "./pages/ContactUsPage/ContactUs";
 import { Home } from "./pages/HomePage/Home";
 import CreateBlog from "./pages/CreateBlog/CreateBlog";
 import SingleBlog from "./pages/SingleBlog/SingleBlog";
+import Login from "./pages/Login/Login";
+import Signup from "./pages/Signup/Signup";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -18,6 +20,14 @@ const App = () => {
         {
           path: "/contactus",
           element: <ContactUs />,
+        },
+        {
+          path: "/login",
+          element: <Login />,
+        },
+        {
+          path: "/signup",
+          element: <Signup />,
         },
         {
           path: "/create-blog",

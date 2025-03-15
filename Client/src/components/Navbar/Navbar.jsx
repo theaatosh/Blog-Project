@@ -1,11 +1,10 @@
-import { AiFillInstagram } from "react-icons/ai";
-import { FaFacebook } from "react-icons/fa";
-import { FaSquareXTwitter } from "react-icons/fa6";
+
 import styles from './Navbar.module.css'
 import { IoIosMenu } from "react-icons/io";
 import { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import Button from '../Button/Button';
 const Navbar = () => {
   const [isMenuOpen,setIsMenuOpen]=useState(false)
 
@@ -18,16 +17,16 @@ const Navbar = () => {
         <div className={styles.logo_div}>Blog Spot</div>
          
          <ul className={styles.nav_list}>
-        <Link to='/'> <li className={styles.list}>Home</li></Link>
+        <NavLink to='/' className={({isActive})=>isActive?styles.active:""} > <li className={styles.list}>Home</li></NavLink>
          <Link to='/aboutus'> <li className={styles.list}>About</li></Link>
           <Link to='contactus'><li className={styles.list}>Contact</li></Link>
           <Link to='/blogs'><li className={styles.list}>Blogs</li></Link>
          </ul>
 
          <div className={styles.auth_div}>
-         <button>Login</button>
-         <button>Signup</button>
-         </div>
+         <Link to='/login'><Button text={"Login"}/></Link>
+         <Link to='/signup'><Button text={"Signup"}/></Link>
+         </div> 
 
 
          <div className={styles.small_menu_container} onClick={handleMenuToggle}>
