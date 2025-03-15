@@ -1,167 +1,188 @@
 * {
-    padding: 0px;
-    margin: 0px;
-    box-sizing: border-box;
-    font-family: poppins;
-  }
-  .contactUs {
-    height: 55vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #f8d7da75;
-    padding: 0px 90px;
-    gap: 20px;
-  }
-  .contactUsContent {
-    display: flex;
-    align-items: start;
-    flex-direction: column;
-    gap: 20px;
-  }
-  .contactUShead {
-    color: #343a40;
-    font-size: 2.5vw;
-    font-weight: 700;
-  }
-  .contactUsDetails {
-    font-size: 24px;
-    font-weight: 500;
-    width: 80%;
-    color: #343a40;
-  }
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+  font-family: poppins;
+}
+.contactUs {
+  height: 55vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f8d7da75;
+  padding: 0px 90px;
+  gap: 20px;
+}
+.contactUsContent {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  gap: 20px;
+}
+.contactUShead {
+  color: #343a40;
+  font-size: 2.5vw;
+  font-weight: 700;
+}
+.contactUsDetails {
+  font-size: 24px;
+  font-weight: 500;
+  width: 80%;
+  color: #343a40;
+}
+.contactUsImg {
+  background-image: url("../../../public/travel.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 40%;
+  height: 100%;
+  filter: blur(7px);
+}
+.contactUsForm {
+  background: linear-gradient(180deg, #f5e6da 0%, #e3d5c9 100%);
+  padding: 20px 80px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.contactUsForm > div {
+  /* flex: 1; */
+  padding: 20px;
+  justify-content: center;
+}
+.locationInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+}
+.manageInfo {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.icons {
+  color: #ff6b6b;
+  height: 30px;
+  width: 30px;
+}
+.icons svg {
+  width: 100%;
+  height: 100%;
+}
+.infoHead {
+  font-size: 2vw;
+  font-weight: 700;
+  color: black;
+}
+.infoDetails {
+  font-size: 1.75vw;
+  font-weight: 600;
+  color: #343a40;
+}
+.infos {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.manageInfoDiv {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+.followUS {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.followUsHead {
+  font-size: 2vw;
+  font-weight: 700;
+}
+.manageIcons {
+  display: flex;
+  gap: 15px;
+}
+.letTalkForm {
+  border: 10px solid #ff6b6b;
+  padding: 20px 50px !important;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 55%;
+}
+.letTalkFormHead {
+  font-size: 2.75vw;
+  font-weight: 700;
+}
+.letTalkMainForm {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.letTalkMainForm > div {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  height: 15vh;
+}
+.letTalkMainForm > div > input {
+  outline: none;
+  border: none;
+  background-color: #f8d7da;
+  height: 100%;
+  padding: 10px;
+}
+.letTalkMainForm > div > label {
+  color: #8d6e63;
+  font-size: 2vw;
+  font-weight: 600;
+}
+.messageTeaxtArea {
+  height: 25vh !important;
+}
+.letTalkMainForm > div > textarea {
+  outline: none;
+  border: none;
+  background-color: #f8d7da;
+  height: 100%;
+  padding: 10px;
+}
+.submitBtn {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+.letTalkMainForm > div > button {
+  width: 35%;
+  color: white;
+  font-size: 2vw;
+  font-weight: 700;
+  height: 50%;
+  border: none;
+  border-radius: 20px;
+  background-color: #ff6b6b;
+}
+
+@media (max-width: 850px) {
   .contactUsImg {
-    background-image: url("../../../public/travel.jpeg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    width: 40%;
-    height: 100%;
-    filter: blur(7px);
+    width: 60%;
+    height: 60%;
   }
-  .contactUsForm {
-    background: linear-gradient(180deg, #f5e6da 0%, #e3d5c9 100%);
-    padding: 20px 80px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+}
+@media (max-width: 768px) {
+  .contactUsImg {
+    display: none;
   }
-  .contactUsForm > div {
-    /* flex: 1; */
-    padding: 20px;
-    justify-content: center;
+}
+/* @media (max-width: 1450px) {
+  .contactUsImg {
+    width: 50%;
   }
-  .locationInfo {
-    display: flex;
-    flex-direction: column;
-    gap: 5rem;
+}
+@media (max-width: 1300px) {
+  .contactUsImg {
+    width: 70%;
   }
-  .manageInfo {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-  }
-  .icons {
-    color: #ff6b6b;
-    height: 30px;
-    width: 30px;
-  }
-  .icons svg {
-    width: 100%;
-    height: 100%;
-  }
-  .infoHead {
-    font-size: 2vw;
-    font-weight: 700;
-    color: black;
-  }
-  .infoDetails {
-    font-size: 1.75vw;
-    font-weight: 600;
-    color: #343a40;
-  }
-  .infos {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  .manageInfoDiv {
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-  }
-  .followUS {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  .followUsHead {
-    font-size: 2vw;
-    font-weight: 700;
-  }
-  .manageIcons {
-    display: flex;
-    gap: 15px;
-  }
-  .letTalkForm {
-    border: 10px solid #ff6b6b;
-    padding: 20px 50px !important;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    width: 55%;
-  }
-  .letTalkFormHead {
-    font-size: 2.75vw;
-    font-weight: 700;
-  }
-  .letTalkMainForm {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-  }
-  .letTalkMainForm > div {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    height: 15vh;
-  }
-  .letTalkMainForm > div > input {
-    outline: none;
-    border: none;
-    background-color: #f8d7da;
-    height: 100%;
-    padding: 10px;
-  }
-  .letTalkMainForm > div > label {
-    color: #8d6e63;
-    font-size: 2vw;
-    font-weight: 600;
-  }
-  .messageTeaxtArea {
-    height: 25vh !important;
-  }
-  .letTalkMainForm > div > textarea {
-    outline: none;
-    border: none;
-    background-color: #f8d7da;
-    height: 100%;
-    padding: 10px;
-  }
-  .submitBtn {
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-  }
-  .letTalkMainForm > div > button {
-    width: 35%;
-    color: white;
-    font-size: 2vw;
-    font-weight: 700;
-    height: 50%;
-    border: none;
-    border-radius: 20px;
-    background-color: #ff6b6b;
-  }
-  
+} */
