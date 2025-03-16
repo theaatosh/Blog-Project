@@ -1,11 +1,12 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import image from "../../assets/login.png";
 import "./Signup.css";
 import { storeContext } from "../../context/StoreContext";
 import axios from "axios";
 
 const Signup = () => {
+  const navigate=useNavigate();
   const { url } = useContext(storeContext);
 
   const [formData, setFormData] = useState({
@@ -28,6 +29,9 @@ const Signup = () => {
     try {
       const res = await axios.post(`${url}/user/register`, formData);
       console.log(res);
+      if(res.status===200){
+        navigate('/otp-verify',{state:{email:"hello"}})
+      }
     } catch (err) {
       console.log(err);
     }

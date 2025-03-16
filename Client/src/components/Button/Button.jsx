@@ -1,9 +1,12 @@
+import { useLocation } from 'react-router-dom';
 import styles from './Button.module.css';
 
-const Button = ({ text }) => {
+const Button = ({ text,path }) => {
+  const location=useLocation();
+  const isActive=location.pathname===path
   return (
     <div className={styles.btn_container}>
-      <button className={styles.btn}>
+      <button className={`${styles.btn} ${isActive?styles.active:''}` }>
         <span className={styles.hover_div}></span>
         {text}
       </button>
