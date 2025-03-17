@@ -8,7 +8,12 @@ export const getBlogs = async (req, res) => {
     for (let i = 0; i < blogs.length; i++) {
       try {
         const cmtNum = await Comment.countDocuments({ postId: blogs[i]._id });
-        blogsDetails.push({ blog: blogs[i], commentCounter: cmtNum });
+
+        blogsDetails.push({
+          blog: blogs[i],
+          totalLikes: blogs[i].blogLikedUser.length,
+          commentCounter: cmtNum,
+        });
       } catch (err) {
         console.log(err);
       }
