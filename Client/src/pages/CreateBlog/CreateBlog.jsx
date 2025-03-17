@@ -2,8 +2,12 @@ import { useContext, useState } from 'react'
 import styles from './CreateBlog.module.css'
 import axios from 'axios'
 import { storeContext } from '../../context/StoreContext'
+import { toast } from "react-toastify";
+import { Navigate, useNavigate } from 'react-router-dom';
+
 const CreateBlog = () => {
 const {url}=useContext(storeContext)
+const navigate=useNavigate();
     const [formData,setFormData]=useState({
         blogTitle:"",
         authorName:"",
@@ -22,22 +26,33 @@ const {url}=useContext(storeContext)
         ))
         
     }
-    console.log(formData);
     const handleSubmit=async(e)=>{
         e.preventDefault();
-        const formData=new FormData();
-        formData.append("blogTitle",formData.blogTitle)
-        formData.append("authorName",formData.authorName)
-        formData.append("blogContent",formData.blogContent)
-        formData.append("category",formData.category)
-        formData.append("image",formData.image)
+        const formDatas=new FormData();
+        formDatas.append("blogTitle",formData.blogTitle)
+        formDatas.append("authorName",formData.authorName)
+        formDatas.append("blogContent",formData.blogContent)
+        formDatas.append("category",formData.category)
+        formDatas.append("image",formData.image)
 
         try{
-            const res=await axios.post(`${url}/createBlog`);
+            const res=await axios.post(`${url}/createBlog`,formDatas);
             console.log(res);
+            if(res.status===201){
+                toast.success(res.data.message);
+                navigate("/");
+                setFormData({
+                    blogTitle:"",
+                authorName:"",
+                blogContent:"",
+                category:"",
+                image:""
+                })
+            }
             
         }catch(err){
-            console.log(err.response.data.message);
+            toast.error(err?.response?.data?.message)
+            // console.log(err.response.data.message);
             
         }
     }

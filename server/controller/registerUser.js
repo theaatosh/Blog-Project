@@ -49,7 +49,7 @@ const hashPassword = async (password) => {
 export const registerUser = async (req, res) => {
   const { fullName, email, password, confirmPassword } = req.body;
   
-  console.log(fullName, email, password, confirmPassword);
+  // console.log(fullName, email, password, confirmPassword);
   if (!fullName || !email || !password || !confirmPassword) {
     return res.status(400).json({ message: "please fill all the fields" });
   }
