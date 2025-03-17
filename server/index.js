@@ -20,6 +20,9 @@ app.use("/createblog", createBlogRoute);
 import commentRoute from "./route/commentRoute.js";
 app.use("/comment", commentRoute);
 
+import blogLikeCounter from "./route/blogLikeCounterRoute.js";
+app.use("/blog", blogLikeCounter);
+
 app.listen(PORT, () => {
   connectDb(mongoDbUrl);
   console.log(`Server started on port ${PORT}`);
