@@ -81,7 +81,9 @@ export const registerUser = async (req, res) => {
     }
     return res
       .status(200)
-      .json({ message: "User registered successfully and verify otp" });
+      .json({ message: "User registered successfully and verify otp" ,
+        email:newUser.email
+      });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Server error" });

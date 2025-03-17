@@ -1,8 +1,14 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import image from '../../assets/login.png'
+import { toast } from "react-toastify";
+import {storeContext} from '../../context/StoreContext'
+
+import axios from 'axios'
 import "./Login.css";  
 const Login = () => {
+  const {url,token,setToken}=useContext(storeContext);
+  const navigate=useNavigate();
   const [formData,setFormData]=useState({
     email:"",
     password:"",
@@ -14,9 +20,23 @@ const Login = () => {
       ...prevData,[name]:value
     }))
   }
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log("Logging in with", formData);
+    
+    try{
+      const res=await axios.post(`${url}/user/login`,formData)
+      console.log(res);
+      if(res.status===200){
+        toast.success(res?.data?.message);
+      
+        navigate('/');
+
+      }
+
+    }catch(err){
+      console.log(err);
+      toast.error(err?.response?.data?.message)
+    }
   };
 
   return (
