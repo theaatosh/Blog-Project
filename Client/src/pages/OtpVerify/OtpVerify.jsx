@@ -1,15 +1,16 @@
 import { FaFingerprint } from "react-icons/fa";
 import { Button } from './Button.jsx'
-import { useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useContext, useEffect, useRef, useState } from "react";
+import { replace, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import {toast } from 'react-toastify';
 import Loading from  '../../components/Loading.jsx'
 import styles from './OtpVerify.module.css'
+import { storeContext } from "../../context/StoreContext.jsx";
 export const OtpVerify = () => {
+    const {url}=useContext(storeContext)
     const location=useLocation();
     const email=location.state?.email;
-    console.log(email);
     
 
     const[isLoading,setIsLoading]=useState(false);
@@ -22,10 +23,10 @@ export const OtpVerify = () => {
     const ref6 = useRef(null);
     const inputRef = [ref1, ref2, ref3, ref4, ref5, ref6];
 
-    const [otp, setOtp] = useState(['', '', '', '', '', '']); 
+    const [otpCon, setOtp] = useState(['', '', '', '', '', '']); 
 
     const handleChange = (e, index) => {
-        const updatedOtp = [...otp];
+        const updatedOtp = [...otpCon];
         updatedOtp[index] = e.target.value;
         setOtp(updatedOtp);
 
@@ -44,19 +45,25 @@ export const OtpVerify = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        const otpString = otp.join('');
-        console.log("OTP Submitted:", otpString);
+        const otp = otpCon.join('');
+        console.log("OTP Submitted:", otp);
         
         try {
             setIsLoading(true);
-            const response = await axios.post("http://localhost:5010/api/forgotpassword/verifyOTP",{email,otp})
+            console.log("hello"+email,otp);
+            
+            const response = await axios.post(`${url}/user/register/verify`,{email,otp});
+            console.log(response);
+            
             if (response.status===200) {
                 console.log(response.data.message);
                 
                 toast.success(response.data.message);
-                navigate('/password/update',{state:{email}});
+                navigate('/login',{replace:true});
             } 
         } catch (error) {
+            console.log(error.response.data.message);
+            
                         toast.error(error.response.data.message);
         }
         finally{
@@ -85,7 +92,7 @@ export const OtpVerify = () => {
                                         ref={item}
                                         key={index}
                                         type="number"
-                                        value={otp[index]} 
+                                        value={otpCon[index]} 
                                         onChange={(e) => handleChange(e, index)}
                                         onInput={(e) => {
                                             if (e.target.value.length > 1) {

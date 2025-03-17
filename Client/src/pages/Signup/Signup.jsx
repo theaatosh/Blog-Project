@@ -4,6 +4,7 @@ import image from "../../assets/login.png";
 import "./Signup.css";
 import { storeContext } from "../../context/StoreContext";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Signup = () => {
   const navigate=useNavigate();
@@ -29,11 +30,16 @@ const Signup = () => {
     try {
       const res = await axios.post(`${url}/user/register`, formData);
       console.log(res);
+      
       if(res.status===200){
-        navigate('/otp-verify',{state:{email:"hello"}})
+        toast.success(res.data.message)
+        const email=res?.data?.email        
+        navigate('/otp-verify',{state:{email}})
       }
-    } catch (err) {
-      console.log(err);
+    } catch (err) { 
+      console.log("network error",err);
+      
+      toast.error(err?.response?.data?.message)
     }
   };
 
