@@ -7,6 +7,7 @@ import CreateBlog from "./pages/CreateBlog/CreateBlog";
 import SingleBlog from "./pages/SingleBlog/SingleBlog";
 import Login from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
+import { OtpVerify } from "./pages/OtpVerify/OtpVerify";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -37,6 +38,10 @@ const App = () => {
           path: "/blog/:id",
           element: <SingleBlog />,
         },
+        {
+          path:"/otp-verify",
+          element:<OtpVerify/>
+        }
       ],
     },
   ]);

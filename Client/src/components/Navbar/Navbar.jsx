@@ -18,14 +18,14 @@ const Navbar = () => {
          
          <ul className={styles.nav_list}>
         <NavLink to='/' className={({isActive})=>isActive?styles.active:""} > <li className={styles.list}>Home</li></NavLink>
-         <Link to='/aboutus'> <li className={styles.list}>About</li></Link>
-          <Link to='contactus'><li className={styles.list}>Contact</li></Link>
-          <Link to='/blogs'><li className={styles.list}>Blogs</li></Link>
+         <NavLink to='/aboutus' className={({isActive})=>isActive?styles.active:""}> <li className={styles.list}>About</li></NavLink>
+          <NavLink to='contactus' className={({isActive})=>isActive?styles.active:""}><li className={styles.list}>Contact</li></NavLink>
+          <NavLink to='/blogs' className={({isActive})=>isActive?styles.active:""}><li className={styles.list}>Blogs</li></NavLink>
          </ul>
 
          <div className={styles.auth_div}>
-         <Link to='/login'><Button text={"Login"}/></Link>
-         <Link to='/signup'><Button text={"Signup"}/></Link>
+         <NavLink to='/login'><Button text={"Login"} path={'/login'} /></NavLink>
+         <NavLink to='/signup'><Button text={"Signup"} path={'/signup'}/></NavLink>
          </div> 
 
 
@@ -36,12 +36,12 @@ const Navbar = () => {
         {isMenuOpen&&
         <div className={styles.mobile_view_list}>
         <ul className={styles.mob_nav_list}>
-         <li className={styles.mob_list}>Home</li>
-         <li className={styles.mob_list}>About</li>
-         <li className={styles.mob_list}>Contact</li>
-         <li className={styles.mob_list}>Blogs</li>
-         <li className={styles.mob_list}>Login</li>
-         <li className={styles.mob_list}>Signup</li>
+        <NavLink to='/' className={({isActive})=>isActive?styles.active:""} > <li className={styles.mob_list}>Home</li></NavLink>
+         <NavLink to='/aboutus' className={({isActive})=>isActive?styles.active:""}> <li className={styles.mob_list}>About</li></NavLink>
+          <NavLink to='contactus' className={({isActive})=>isActive?styles.active:""}><li className={styles.mob_list}>Contact</li></NavLink>
+          <NavLink to='/blogs' className={({isActive})=>isActive?styles.active:""}><li className={styles.mob_list}>Blogs</li></NavLink>
+          <NavLink to='/login'><Button text={"Login"} path={'/login'} /></NavLink>
+         <NavLink to='/signup'><Button text={"Signup"} path={'/signup'}/></NavLink>
         </ul>
         </div>
         } 
