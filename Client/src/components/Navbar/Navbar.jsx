@@ -7,10 +7,8 @@ import { Link, NavLink } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Button from '../Button/Button';
-import { storeContext } from '../../context/StoreContext';
 const Navbar = () => {
   const [isMenuOpen,setIsMenuOpen]=useState(false)
-  const{token}=useContext(storeContext)
 
   const handleMenuToggle=()=>{
     setIsMenuOpen((prev)=>!prev)
@@ -29,7 +27,7 @@ const Navbar = () => {
 
          <div className={styles.auth_div}>
          <NavLink to='/login'><Button text={"Login"} path={'/login'} /></NavLink>
-         <NavLink to='/signup'><Button text={"Signup"} path={'/signup'}/></NavLink>
+         {/* <NavLink to='/signup'><Button text={"Signup"} path={'/signup'}/></NavLink> */}
          </div> 
 
 

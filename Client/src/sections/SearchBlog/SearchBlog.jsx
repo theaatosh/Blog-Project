@@ -17,7 +17,7 @@ export const SearchBlog = () => {
       },
       date: "25th January, 2025",
     },
-    {
+      {
       id: 2,
       category: "Health & Wellness",
       title: "Mindful Eating: A Guide to Better Health",
