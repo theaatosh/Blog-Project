@@ -106,7 +106,7 @@ const Signup = () => {
         </form>
         <p className="register-text">
           Already have an account?{" "}
-          <Link to="/Login" className="login">
+          <Link to="/login" className="login">
             Log In
           </Link>
         </p>
