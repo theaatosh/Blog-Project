@@ -26,7 +26,6 @@ export const getBlogs = async (req, res) => {
 
 export const getBlogsByCategory = async (req, res) => {
   const { category } = req.params;
-  console.log(category);
   
   try {
    const query=category==="All"?{}:{category}

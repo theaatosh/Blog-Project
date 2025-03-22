@@ -99,6 +99,14 @@
     font-size: 1rem;
     color: #636e72;
   }
+
+  .loading{
+    width: 1000;
+    min-height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   
   @media (max-width: 1024px) {
     .blogs_container {

@@ -4,23 +4,14 @@ import styles from './Blogs.module.css';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { storeContext } from '../../context/StoreContext';
-
-// Sample blog data (replace with your actual data source)
-const blogData = [
-  { _id: "1", category: "Fashion", blogTitle: "Top 10 Fashion Trends for 2025", blogContent: "Explore the latest fashion trends that will dominate 2025 with bold colors and unique styles...", imageUrl: "https://images.unsplash.com/photo-1483985988355-763728e1935b", author: { name: "Emma Carter", profileImage: "https://images.unsplash.com/photo-1494790108377-be9c29b29330" }, date: "2025-03-01" },
-  { _id: "2", category: "Tech", blogTitle: "AI Revolution Unveiled", blogContent: "Artificial Intelligence is transforming industries. Here’s what you need to know...", imageUrl: "https://images.unsplash.com/photo-1519389950473-47ba0277781c", author: { name: "Liam Hayes", profileImage: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e" }, date: "2025-02-15" },
-  { _id: "3", category: "Lifestyle", blogTitle: "Minimalist Living 101", blogContent: "Learn how to declutter your life and embrace minimalism with these simple steps...", imageUrl: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c", author: { name: "Sophia Patel", profileImage: "https://images.unsplash.com/photo-1517841902196-3eabf25f45e8" }, date: "2025-03-10" },
-  { _id: "4", category: "Travel", blogTitle: "Hidden Gems of Europe", blogContent: "Discover lesser-known destinations in Europe that offer breathtaking views...", imageUrl: "https://images.unsplash.com/photo-1501785888041-af3ef285b470", author: { name: "Emma Carter", profileImage: "https://images.unsplash.com/photo-1494790108377-be9c29b29330" }, date: "2025-03-05" },
-  { _id: "5", category: "Entertainment", blogTitle: "Best Movies of the Year", blogContent: "A roundup of the must-watch movies of 2025 that you can’t miss...", imageUrl: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819", author: { name: "Liam Hayes", profileImage: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e" }, date: "2025-03-20" },
-];
-
-
+import Loading from '../../components/Loading';
 
 
 const Blogs = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const {url}=useContext(storeContext);
     const [blogData,setBlogData]=useState([]);
+    const [isLoading,setIsLoading]=useState(false);
   const categories = ["All", "Fashion", "Tech", "Lifestyle", "Travel", "Entertainment"];
 //   const blogData = selectedCategory === "All" 
 //     ? blogData 
@@ -28,13 +19,17 @@ const Blogs = () => {
 
     const fetchBlogsData=async()=>{
     try{
+      setIsLoading(true);
         const res=await axios.get(`${url}/blog/${selectedCategory}`);
-        console.log(res);
         
         setBlogData(res.data.blogs)
     }catch(err){
         console.log(err.response.data.message);
         
+        
+    }
+    finally{
+        setIsLoading(false);
     }
     }
 
@@ -61,7 +56,7 @@ const Blogs = () => {
         transition={{ delay: 0.2, duration: 0.6 }}
       >
         <div className={styles.category_wrapper}>
-          {categories.map(category => (
+          {categories.map((category) => (
             <button
               key={category}
               className={`${styles.category_item} ${selectedCategory === category ? styles.active : ''}`}
@@ -80,7 +75,7 @@ const Blogs = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4, duration: 0.6 }}
       >
-        {blogData.length > 0 ? (
+        {isLoading ?  <div className={styles.loading}><Loading/></div> : blogData.length > 0 ? (
           blogData.map(blog => (
             <motion.div
               key={blog._id}

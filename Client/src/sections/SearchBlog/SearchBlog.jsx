@@ -78,7 +78,10 @@ const{url}=useContext(storeContext)
           {
             blogData?.map((blog,index)=>{
               return(
-                <BlogCard key={blog?._id} blogDetails={blog.blog}/>
+                <div key={blog?._id}>
+                  <BlogCard  blogDetails={blog.blog}/>
+                </div>
+
               )
             })
           }

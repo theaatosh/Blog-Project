@@ -2,8 +2,6 @@ import styles from './Navbar.module.css';
 import { IoIosMenu } from "react-icons/io";
 import { RxCross2 } from "react-icons/rx";
 import { Link, NavLink } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import Button from '../Button/Button';
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -71,7 +69,7 @@ const Navbar = () => {
       initial="visible"
       animate={showNavbar ? "visible" : "hidden"}
     >
-      <ToastContainer position="top-right" autoClose={3000} />
+      
       <nav className={styles.nav_container}>
         <Link to='/'>
           <div className={styles.logo_div}>Blog Spot</div>
