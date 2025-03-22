@@ -49,6 +49,7 @@
     padding: 10px 40px;
     font-size:1.2rem;
     width: 100%;
+    cursor: pointer;
 }
 .btn2{
     border-radius: 20px;
@@ -57,6 +58,7 @@
     padding: 10px 40px;
     font-size:1.2rem;
     width: 100%;
+    cursor: pointer;
 }
 
 @media (max-width:740px) {

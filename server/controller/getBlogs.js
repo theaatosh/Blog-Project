@@ -26,8 +26,11 @@ export const getBlogs = async (req, res) => {
 
 export const getBlogsByCategory = async (req, res) => {
   const { category } = req.params;
+  console.log(category);
+  
   try {
-    const blogs = await Blog.find({ category });
+   const query=category==="All"?{}:{category}
+    const blogs = await Blog.find(query);
     res.status(200).json({ blogs: blogs });
   } catch (err) {
     console.log(err);
