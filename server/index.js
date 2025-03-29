@@ -8,6 +8,7 @@ const PORT = process.env.PORT;
 const mongoDbUrl = process.env.mongoDbUrl;
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors());
 import { connectDb } from "./database/connectDb.js";
 
@@ -24,6 +25,7 @@ import blogLikeCounter from "./route/blogLikeCounterRoute.js";
 app.use("/blog", blogLikeCounter);
 
 import getBlogRoutes from "./route/getBlogRoutes.js";
+import cookieParser from "cookie-parser";
 app.use("/blog", getBlogRoutes);
 
 app.listen(PORT, () => {

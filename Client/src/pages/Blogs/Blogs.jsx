@@ -1,4 +1,4 @@
-import { use, useContext, useEffect, useState } from 'react';
+import {  useContext, useEffect, useState } from 'react';
 import { BlogCard } from '../../components/BlogCard/BlogCard';
 import styles from './Blogs.module.css';
 import { motion } from 'framer-motion';

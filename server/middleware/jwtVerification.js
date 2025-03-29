@@ -2,9 +2,11 @@
 import jwt from "jsonwebtoken";
 const verifyjwt = (req, res, next) => {
     const secretKey = process.env.secretKey;
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-//   console.log(token, secretKey);
+    const token=req.cookies.token
+
+    
+  
+    
   if (!token) {
     return res.status(403).send("Access denied. No token provided.");
   }
