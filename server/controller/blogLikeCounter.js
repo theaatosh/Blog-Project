@@ -11,7 +11,7 @@ export const blogLikeCounter = async (req, res) => {
       await blogDetails.save();
       return res
         .status(200)
-        .json({ message: "Blog liked successfully", blog:blogDetails });
+        .json({ message: "Blog liked successfully", blog: blogDetails });
     } else {
       blogDetails.blogLikedUser.pull(userId);
       await blogDetails.save();
