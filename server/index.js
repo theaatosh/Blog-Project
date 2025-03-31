@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import { connectDb } from "./database/connectDb.js";
 dotenv.config();
 
 const app = express();
@@ -8,8 +9,15 @@ const PORT = process.env.PORT;
 const mongoDbUrl = process.env.mongoDbUrl;
 
 app.use(express.json());
-app.use(cors());
-import { connectDb } from "./database/connectDb.js";
+app.use(cookieParser());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,               
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 import loginRegisterRoute from "./route/loginRegisterRoute.js";
 app.use("/user", loginRegisterRoute);
@@ -24,6 +32,7 @@ import blogLikeCounter from "./route/blogLikeCounterRoute.js";
 app.use("/blog", blogLikeCounter);
 
 import getBlogRoutes from "./route/getBlogRoutes.js";
+import cookieParser from "cookie-parser";
 app.use("/blog", getBlogRoutes);
 
 app.listen(PORT, () => {

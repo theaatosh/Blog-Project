@@ -6,7 +6,7 @@ export const blogLikeCounter = async (req, res) => {
     if (!blogDetails) {
       return res.status(404).json({ message: "blog does not exist" });
     }
-    if (!blog.blogLikedUser.includes(userId)) {
+    if (!blogDetails.blogLikedUser.includes(userId)) {
       blogDetails.blogLikedUser.push(userId);
       await blogDetails.save();
       return res

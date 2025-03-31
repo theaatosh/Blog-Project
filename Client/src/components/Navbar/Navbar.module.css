@@ -1,14 +1,14 @@
-.wrapper_container{
+.wrapper_container {
     position: fixed;
-    z-index: 9999;
     top: 0;
     left: 0;
-    right: 0;
     width: 100%;
+    z-index: 1000;
+    background: #fff; /* or your preferred background */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     padding: 15px 50px;
     background-color: rgb(53,59,64);
-    
-}
+  }
 
 .nav_container{
     display: flex;
@@ -124,6 +124,11 @@
     width: 60%;
 
     left: 0;
+  }
+
+
+  .hidden{
+    display: none;
   }
   
 
