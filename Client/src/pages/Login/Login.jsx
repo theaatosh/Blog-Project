@@ -7,7 +7,7 @@ import {storeContext} from '../../context/StoreContext'
 import axios from 'axios'
 import "./Login.css";  
 const Login = () => {
-  const {url,token,setToken}=useContext(storeContext);
+  const {url,token,setToken,checkUser}=useContext(storeContext);
   const navigate=useNavigate();
   const [formData,setFormData]=useState({
     email:"",
@@ -28,7 +28,7 @@ const Login = () => {
       console.log(res);
       if(res.status===200){
         toast.success(res?.data?.message);
-      
+       await checkUser();
         navigate('/');
 
       }

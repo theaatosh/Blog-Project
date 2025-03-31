@@ -33,9 +33,12 @@ export const loginUser = async (req, res) => {
     });
 
     res.cookie('token', token, {
-      httpOnly: true,
-      sameSite: 'strict',
-      maxAge: 3600000
+
+      maxAge:5*24*60*60*1000,
+        httpOnly:true,
+        sameSite:"strict",
+        secure:process.env.NODE_ENV !=="development",
+  
     });
     
 
