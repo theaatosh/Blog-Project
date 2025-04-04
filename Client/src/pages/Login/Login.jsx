@@ -24,7 +24,9 @@ const Login = () => {
     e.preventDefault();
     
     try{
-      const res=await axios.post(`${url}/user/login`,formData)
+      const res=await axios.post(`${url}/user/login`,formData,{
+        withCredentials:true
+      })
       console.log(res);
       if(res.status===200){
         toast.success(res?.data?.message);

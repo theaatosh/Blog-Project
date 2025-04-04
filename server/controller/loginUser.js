@@ -1,6 +1,7 @@
 import { User } from "../model/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { generateToken } from "../utils/generateToken.js";
 
 const checkEmail = async (email) => {
   const match = await User.findOne({ email: email });
@@ -27,23 +28,10 @@ export const loginUser = async (req, res) => {
     if (!checkPassword) {
       return res.status(400).json({ message: "invalid credentials" });
     }
-    const secretKey = process.env.secretKey;
-    const token = await jwt.sign({ fullName: user.fullName }, secretKey, {
-      expiresIn: "24h",
-    });
-
-    res.cookie('token', token, {
-
-      maxAge:5*24*60*60*1000,
-        httpOnly:true,
-        sameSite:"strict",
-        secure:process.env.NODE_ENV !=="development",
-  
-    });
-    
+    generateToken(user,res) 
 
     res.status(200).json({ message: "login successfully",user });
-  } catch (err) {
+      } catch (err) {
     console.log(err);
   }
 };
