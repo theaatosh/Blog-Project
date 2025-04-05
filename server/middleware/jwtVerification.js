@@ -5,7 +5,7 @@ const verifyjwt = (req, res, next) => {
     console.log(req.cookies);
     
     const token=req.cookies.token
-    console.log(token);
+    
     
 
     if (!token) {

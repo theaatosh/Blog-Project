@@ -32,17 +32,14 @@ export const loginUser = async (req, res) => {
       expiresIn: "24h",
     });
 
-    res.cookie('token', token, {
-
-      maxAge:5*24*60*60*1000,
-        httpOnly:true,
-        sameSite:"strict",
-        secure:process.env.NODE_ENV !=="development",
-  
+    res.cookie("token", token, {
+      maxAge: 5 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      sameSite: "lax",
+      secure: false, 
     });
-    
 
-    res.status(200).json({ message: "login successfully",user });
+    res.status(200).json({ message: "login successfully", user });
   } catch (err) {
     console.log(err);
   }
