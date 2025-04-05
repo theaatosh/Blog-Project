@@ -3,16 +3,8 @@ import styles from "./BlogCard.module.css";
 import { FaHeart } from "react-icons/fa"; // Importing a heart icon for likes
 
 export const BlogCard = ({ blogDetails }) => {
-  const {
-    _id,
-    category,
-    blogTitle,
-    blogContent,
-    imageUrl,
-    author,
-    date,
-    likes,
-  } = blogDetails;
+  const { _id, category, title, blogContent, imageUrl, author, date, likes } =
+    blogDetails;
 
   // Estimate reading time (assuming 200 words per minute)
   const wordsPerMinute = 200;
@@ -40,7 +32,7 @@ export const BlogCard = ({ blogDetails }) => {
       <div className={styles.blog_details}>
         <h3>{category}</h3>
         <h2>{title}</h2>
-        <p>{description?.slice(0, 200).concat(" ......")}</p>
+        <p>{blogContent?.slice(0, 200).concat(" ......")}</p>
 
         <div className={styles.lower_con}>
           <div className={styles.lower_left}>
@@ -52,7 +44,7 @@ export const BlogCard = ({ blogDetails }) => {
           </div>
 
           <div className={styles.lower_right}>
-            <Link to={`/blog/:${id}`}>
+            <Link to={`/blog/:${_id}`}>
               <button className={styles.lower_btn}>Read more</button>
             </Link>
           </div>

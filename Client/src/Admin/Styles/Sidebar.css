@@ -1,18 +1,17 @@
 .admin-layout {
-  display: flex;
+  /* display: flex; */
   min-height: 100vh;
+  border: 2px solid red;
+  /* width: 100%; */
+  box-sizing: border-box;
 }
 
 .sidebar {
-  background-color: #2c3e50;
+  background-color: rgba(44, 62, 80, 0.9); /* Semi-transparent background */
   color: white;
   transition: width 0.3s ease;
-  position: fixed;
-  top: 0;
-  left: 0;
   height: 100%;
-  z-index: 1000;
-  overflow: hidden; /* Prevents content from overflowing when closed */
+  overflow: hidden;
 }
 
 .sidebar.open {
@@ -24,7 +23,7 @@
 }
 
 .toggle-btn {
-  background: none;
+  background-color: rgba(44, 62, 80, 0.9); /* Match the sidebar's background */
   border: none;
   color: white;
   font-size: 24px;
@@ -32,9 +31,18 @@
   cursor: pointer;
   width: 100%;
   text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background-color 0.2s ease;
+}
+
+.toggle-btn:hover {
+  background-color: rgba(52, 73, 94, 0.9); /* Slightly darker on hover */
 }
 
 .menu-icon {
+  font-size: 1.5rem;
   vertical-align: middle;
 }
 
@@ -43,16 +51,16 @@
   flex-direction: column;
   padding: 10px 0;
   opacity: 1;
-  transition: opacity 0.2s ease; /* Smooth fade transition */
+  transition: opacity 0.2s ease;
 }
 
 .sidebar.closed .sidebar-nav {
-  opacity: 0; /* Hide nav items when sidebar is closed */
-  pointer-events: none; /* Prevents clicking on hidden items */
+  opacity: 0;
+  pointer-events: none;
 }
 
 .sidebar.open .sidebar-nav {
-  opacity: 1; /* Show nav items when sidebar is open */
+  opacity: 1;
   pointer-events: auto;
 }
 
@@ -61,26 +69,28 @@
   text-decoration: none;
   padding: 15px 20px;
   font-size: 16px;
-  transition: background-color 0.2s;
-  white-space: nowrap; /* Prevents text wrapping */
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: transparent;
 }
 
 .sidebar-link:hover {
-  background-color: #34495e;
+  background-color: #1abc9c;
+  color: #2c3e50;
 }
 
-.main-content {
-  flex: 1;
-  padding: 20px;
-  margin-left: 250px;
-  transition: margin-left 0.3s ease;
+.sidebar-icon {
+  font-size: 1.2rem;
+  color: inherit;
 }
 
-.sidebar.closed + .main-content {
-  margin-left: 60px;
+.ml-2 {
+  margin-left: 0.5rem;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .sidebar.open {
     width: 200px;
@@ -91,11 +101,7 @@
   }
 
   .main-content {
-    margin-left: 0;
-  }
-
-  .sidebar.closed + .main-content {
-    margin-left: 0;
+    width: 100%;
   }
 
   .toggle-btn {

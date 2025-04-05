@@ -14,6 +14,8 @@ import { BlogCard } from "./components/BlogCard/BlogCard";
 import HomePage from "./Admin/Pages/HomePage";
 import { OtpVerify } from "./pages/OtpVerify/OtpVerify";
 import Blogs from "./pages/Blogs/Blogs";
+import BlogReviewCard from "./Admin/components/BlogReviewCard";
+import AdminBlogs from "./Admin/Pages/AdminBlogs";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -54,6 +56,7 @@ const App = () => {
         },
       ],
     },
+
     {
       path: "/admin",
       element: <AdminLayout />,
@@ -65,22 +68,7 @@ const App = () => {
         },
         {
           path: "adminblogs",
-          element: <BlogCard />,
-        },
-      ],
-    },
-    {
-      path: "/admin",
-      element: <AdminLayout />,
-      children: [
-        { index: true, element: <HomePage /> },
-        {
-          path: "userdetails",
-          element: <UserDetails />,
-        },
-        {
-          path: "adminblogs",
-          element: <BlogCard />,
+          element: <AdminBlogs />,
         },
       ],
     },

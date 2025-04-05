@@ -1,13 +1,13 @@
 import React from "react";
-import "./BlogCard.Module.css";
+import "./BlogReviewCard.Module.css";
 
-const BlogCard = ({ category, title, description, image }) => {
+const BlogReviewCard = ({ category, title, description, image }) => {
+  console.log(category, title);
   return (
     <div className="blog-card">
-      <div
-        className="blog-image"
-        style={{ backgroundImage: `url(${image})` }}
-      ></div>
+      <div className="blog-image">
+        <img src={image} alt="Image 1"></img>
+      </div>
       <div className="blog-content">
         <span className="blog-category">{category}</span>
         <h3 className="blog-title">{title}</h3>
@@ -21,4 +21,4 @@ const BlogCard = ({ category, title, description, image }) => {
   );
 };
 
-export default BlogCard;
+export default BlogReviewCard;
