@@ -3,7 +3,8 @@ import styles from "./BlogCard.module.css";
 import { FaHeart } from "react-icons/fa"; // Importing a heart icon for likes
 
 export const BlogCard = ({ blogDetails }) => {
-  const { _id, category, blogTitle, blogContent, imageUrl, author, date, likes } = blogDetails;
+  const { _id, category, title, blogContent, imageUrl, author, date, likes } =
+    blogDetails;
 
   // Estimate reading time (assuming 200 words per minute)
   const wordsPerMinute = 200;
@@ -12,52 +13,38 @@ export const BlogCard = ({ blogDetails }) => {
 
   // Category color mapping
   const categoryColors = {
-    Fashion: {bg_color:"#FCE6F2",color:"rgb(157,54,156)"}   ,  
-    Tech: {bg_color:"rgb(219,235,255)",color:"rgb(31,125,215)"}   ,   
-    Entertainment: {bg_color:"rgb(219,235,255)",color:"rgb(31,125,215)"}   ,   
-    Health: {bg_color:"#A54D0E",color:"#6B27AB"}   ,   
-    Travel: {bg_color:"#DCFDE6",color:"#166534"}   ,   
+    Fashion: { bg_color: "#FCE6F2", color: "rgb(157,54,156)" },
+    Tech: { bg_color: "rgb(219,235,255)", color: "rgb(31,125,215)" },
+    Entertainment: { bg_color: "rgb(219,235,255)", color: "rgb(31,125,215)" },
+    Health: { bg_color: "#A54D0E", color: "#6B27AB" },
+    Travel: { bg_color: "#DCFDE6", color: "#166534" },
   };
-  
-  
-  const categoryBgColor = categoryColors[category]?.bg_color ;
-  const textColor = categoryColors[category]?.color ;
 
-  
+  const categoryBgColor = categoryColors[category]?.bg_color;
+  const textColor = categoryColors[category]?.color;
 
   return (
     <div className={styles.card_container}>
       <div className={styles.img_con}>
-        <img src={imageUrl || "lifestyle.png"} alt={blogTitle} />
+        <img src="lifestyle.png" alt="" />
       </div>
 
       <div className={styles.blog_details}>
-        <h3 style={{ backgroundColor: categoryBgColor ,color:textColor}}>{category}</h3>
-        <h2>{blogTitle}</h2>
+        <h3>{category}</h3>
+        <h2>{title}</h2>
         <p>{blogContent?.slice(0, 200).concat(" ......")}</p>
-
-        <div className={styles.meta_info}>
-          <span className={styles.reading_time}>{readingTime} min read</span>
-          <span className={styles.likes}>
-            <FaHeart /> {likes || 0} {/* Default to 0 if likes is undefined */}
-          </span>
-        </div>
 
         <div className={styles.lower_con}>
           <div className={styles.lower_left}>
-            <img
-              src={author?.profileImage || "/user.png"}
-              alt="profile"
-              width="30px"
-            />
+            <img src={author?.profileImage} alt="profile image" width="50px" />
             <div className={styles.profile_details}>
-              <h3>{author?.name || "Anonymous"}</h3>
-              <p>{new Date(date).toLocaleDateString()}</p> 
+              <h3>{author?.name}</h3>
+              <p>{date}</p>
             </div>
           </div>
 
           <div className={styles.lower_right}>
-            <Link to={`/blog/${_id}`}>
+            <Link to={`/blog/:${_id}`}>
               <button className={styles.lower_btn}>Read more</button>
             </Link>
           </div>
