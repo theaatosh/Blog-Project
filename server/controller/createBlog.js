@@ -19,4 +19,4 @@ export const createBlog = async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-};
+};  

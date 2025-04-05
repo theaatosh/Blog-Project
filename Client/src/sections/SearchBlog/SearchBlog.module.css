@@ -103,6 +103,7 @@
     }
 }
 
+
 .right_con{
     min-width: 300px;
     padding: 0px 0px 0px 40px ;
@@ -155,11 +156,15 @@
 
 .blog_list{
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 40px;
     padding: 10px 40px;
 }
-
+@media (max-width:1000px) {
+    .blog_list{
+        grid-template-columns:1fr 1fr;
+        padding: 10px 10px;
+    }}
 
 @media (max-width:740px) {
     .blog_list{

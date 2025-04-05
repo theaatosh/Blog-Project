@@ -2,7 +2,6 @@ import { Comment } from "../model/comment.js";
 import { Blog } from "../model/createBlog.js";
 export const comment = async (req, res) => {
   const { commentText, postId } = req.body;
-  //   const userId = "67c3106aedd4c106bb40e906";
   const { userId } = req.user;
   if (!commentText) {
     return res.status(400).json("fill the comment box");

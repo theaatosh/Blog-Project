@@ -8,7 +8,12 @@ export const getBlogs = async (req, res) => {
     for (let i = 0; i < blogs.length; i++) {
       try {
         const cmtNum = await Comment.countDocuments({ postId: blogs[i]._id });
-        blogsDetails.push({ blog: blogs[i], commentCounter: cmtNum });
+
+        blogsDetails.push({
+          blog: blogs[i],
+          totalLikes: blogs[i].blogLikedUser.length,
+          commentCounter: cmtNum,
+        });
       } catch (err) {
         console.log(err);
       }
@@ -21,9 +26,25 @@ export const getBlogs = async (req, res) => {
 
 export const getBlogsByCategory = async (req, res) => {
   const { category } = req.params;
+  
   try {
-    const blogs = await Blog.find({ category });
+   const query=category==="All"?{}:{category}
+    const blogs = await Blog.find(query);
     res.status(200).json({ blogs: blogs });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getFullBlog = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const blog = await Blog.findById(id);
+    if (!blog) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+    const cmtNum = await Comment.countDocuments({ postId: id });
+    res.status(200).json({ blog: blog, commentCounter: cmtNum });
   } catch (err) {
     console.log(err);
   }

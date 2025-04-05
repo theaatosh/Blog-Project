@@ -9,7 +9,7 @@ const checkEmail = async (email) => {
 
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
-  console.log(email, password);
+  // console.log(email, password);
   try {
     const isEmailAvailable = await checkEmail(email);
     if (!isEmailAvailable) {
@@ -20,6 +20,9 @@ export const loginUser = async (req, res) => {
   }
   try {
     const user = await User.findOne({ email: email });
+    if (user.status !== "active") {
+      return res.status(400).json({ message: "please verify your email" });
+    }
     const checkPassword = await bcrypt.compare(password, user.password);
     if (!checkPassword) {
       return res.status(400).json({ message: "invalid credentials" });
@@ -28,7 +31,18 @@ export const loginUser = async (req, res) => {
     const token = await jwt.sign({ fullName: user.fullName }, secretKey, {
       expiresIn: "24h",
     });
-    res.status(200).json({ message: "login successfully", token: token });
+
+    res.cookie('token', token, {
+
+      maxAge:5*24*60*60*1000,
+        httpOnly:true,
+        sameSite:"strict",
+        secure:process.env.NODE_ENV !=="development",
+  
+    });
+    
+
+    res.status(200).json({ message: "login successfully",user });
   } catch (err) {
     console.log(err);
   }
