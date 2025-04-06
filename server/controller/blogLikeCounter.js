@@ -1,25 +1,41 @@
 import { Blog } from "../model/createBlog.js";
 export const blogLikeCounter = async (req, res) => {
-  const { blogId, userId } = req.body;
   try {
-    const blogDetails = await Blog.findById(blogId);
-    if (!blogDetails) {
-      return res.status(404).json({ message: "blog does not exist" });
+    
+    const { id: blogId } = req.params; 
+    const userId = req.user._id; 
+
+    const blog = await Blog.findById(blogId);
+    if (!blog) return res.status(404).json({ message: "Blog not found" });
+
+    
+    if (typeof blog.blogLikedCounter !== "number") {
+      blog.blogLikedCounter = 0; 
     }
-    if (!blogDetails.blogLikedUser.includes(userId)) {
-      blogDetails.blogLikedUser.push(userId);
-      await blogDetails.save();
-      return res
-        .status(200)
-        .json({ message: "Blog liked successfully", blog: blogDetails });
+
+    const isLiked = blog.blogLikedUser.includes(userId);
+
+    if (isLiked) {
+      
+      blog.blogLikedUser = blog.blogLikedUser.filter(
+        (id) => id.toString() !== userId.toString()
+      );
+      blog.blogLikedCounter = Math.max(0, blog.blogLikedCounter - 1); 
     } else {
-      blogDetails.blogLikedUser.pull(userId);
-      await blogDetails.save();
-      return res
-        .status(200)
-        .json({ message: "Blog unliked successfully", blog: blogDetails });
+      
+      blog.blogLikedUser.push(userId);
+      blog.blogLikedCounter += 1;
     }
-  } catch {
-    res.status(500).json({ message: "Server error", error });
+
+    await blog.save();
+
+    res.json({
+      success: true,
+      isLiked: !isLiked,
+      likeCount: blog.blogLikedCounter,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
   }
 };

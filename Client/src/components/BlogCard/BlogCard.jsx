@@ -1,16 +1,15 @@
 import { Link } from "react-router-dom";
 import styles from "./BlogCard.module.css";
-import { FaHeart } from "react-icons/fa"; // Importing a heart icon for likes
+import { FaHeart } from "react-icons/fa"; 
 
 export const BlogCard = ({ blogDetails }) => {
-  const { _id, category, blogTitle, blogContent, imageUrl, author, date, likes } = blogDetails;
+  const { _id, category, blogTitle, blogContent, imageUrl, author, date,blogLikedCounter } = blogDetails;
+  
 
-  // Estimate reading time (assuming 200 words per minute)
   const wordsPerMinute = 200;
   const wordCount = blogContent?.split(" ").length || 0;
   const readingTime = Math.ceil(wordCount / wordsPerMinute);
 
-  // Category color mapping
   const categoryColors = {
     Fashion: {bg_color:"#FCE6F2",color:"rgb(157,54,156)"}   ,  
     Tech: {bg_color:"rgb(219,235,255)",color:"rgb(31,125,215)"}   ,   
@@ -39,8 +38,10 @@ export const BlogCard = ({ blogDetails }) => {
         <div className={styles.meta_info}>
           <span className={styles.reading_time}>{readingTime} min read</span>
           <span className={styles.likes}>
-            <FaHeart /> {likes || 0} {/* Default to 0 if likes is undefined */}
+            <FaHeart /> 
+            <span>{blogLikedCounter >= 0 ? blogLikedCounter : 0}</span> 
           </span>
+          
         </div>
 
         <div className={styles.lower_con}>

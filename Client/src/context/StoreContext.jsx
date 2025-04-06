@@ -1,18 +1,42 @@
 import { createContext, useEffect, useState } from "react";
 import axios from 'axios'
+import { toast } from "react-toastify";
+
 
 export const storeContext = createContext();
 
 export const StoreContextProvider = ({ children }) => {
   const url = "http://localhost:5010";
   const [user,setUser]=useState(null);
+  const[loading,setLoading]=useState(true);
+
+  //function to logout user
+  const logOutUser=async()=>{
+    try{
+      setLoading(true);
+      
+      const res=await axios.post(`${url}/user/logout`,{},{withCredentials:true}); 
+      toast.success(res?.data?.message);
+      setUser(null);
+    }
+    catch(err){
+      console.log(err?.response?.data?.message);
+    }
+    finally{
+      setLoading(false);
+    }
+    }
 
   //function to check whether user is logged in
   const checkUser=async()=>{
     try{
+      setLoading(true);
       const res=await axios.get(`${url}/user/check-auth`,{withCredentials:true}); 
-      if(res.data.isAuthenticated){
-        setUser(res?.data?.username);
+      
+      if(res?.data?.isAuthenticated){
+        console.log(res.data);
+        
+        setUser(res?.data?.username||null);
       }else{
         setUser(null);
       }
@@ -21,19 +45,24 @@ export const StoreContextProvider = ({ children }) => {
 console.log(err?.response?.data?.message);
 setUser(null);
     }
+    finally{
+      setLoading(false);
+    }
   }
 
+
+ 
 
   useEffect(() => {
     checkUser();
     
   }, []);
-    
+  
     
 
   const value = {
     url,
-    checkUser
+    checkUser,user,loading,logOutUser,
   };
 
   return (

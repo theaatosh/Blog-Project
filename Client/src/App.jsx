@@ -9,6 +9,7 @@ import Login from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
 import { OtpVerify } from "./pages/OtpVerify/OtpVerify";
 import Blogs from "./pages/Blogs/Blogs";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -33,7 +34,10 @@ const App = () => {
         },
         {
           path: "/create-blog",
-          element: <CreateBlog />,
+          element:<ProtectedRoute>
+            <CreateBlog />
+            </ProtectedRoute>
+       
         },
         {
           path: "/blog/:id",
