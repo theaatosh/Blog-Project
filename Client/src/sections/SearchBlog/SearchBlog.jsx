@@ -11,7 +11,6 @@ const{url}=useContext(storeContext)
     const fetchBlogs=async()=>{
       try{
         const res=await axios.get(`${url}/blog/`);
-        console.log(res);
         setBlogData(res.data.blogs)
         
       }catch(err){
@@ -76,7 +75,9 @@ const{url}=useContext(storeContext)
         </div>
         <div className={styles.blog_list}>
           {
-            blogData?.map((blog,index)=>{
+            blogData?.map((blog)=>{
+              console.log(blog.blog);
+              
               return(
                 <div key={blog?._id}>
                   <BlogCard  blogDetails={blog.blog}/>

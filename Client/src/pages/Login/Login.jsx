@@ -1,8 +1,9 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import image from '../../assets/login.png'
-import { toast } from "react-toastify";
 import {storeContext} from '../../context/StoreContext'
+import { toast } from "react-toastify";
+
 
 import axios from 'axios'
 import "./Login.css";  
@@ -24,7 +25,9 @@ const Login = () => {
     e.preventDefault();
     
     try{
-      const res=await axios.post(`${url}/user/login`,formData)
+      const res=await axios.post(`${url}/user/login`,formData,{
+        withCredentials:true
+      })
       console.log(res);
       if(res.status===200){
         toast.success(res?.data?.message);

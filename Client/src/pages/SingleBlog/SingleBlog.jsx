@@ -3,54 +3,87 @@ import { IoSend, IoHeart, IoHeartOutline } from "react-icons/io5";
 import styles from "./SingleBlog.module.css";
 import { storeContext } from "../../context/StoreContext";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const SingleBlog = () => {
-  const { url } = useContext(storeContext);
+  const { url, user } = useContext(storeContext);
+  const userId = user?._id;
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [singleBlog, setSingleBlog] = useState(null);
+  const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState("");
   const [replyText, setReplyText] = useState({});
-  const [userId] = useState("user123"); // Mock user ID; replace with actual auth
 
+  // Fetch only blog details (no comments)
   const fetchSingleBlog = async () => {
     try {
       const res = await axios.get(`${url}/blog/full/${id}`);
-      setSingleBlog(res.data.blog);
+      setSingleBlog(res?.data?.blog);
     } catch (err) {
       console.error(err.response?.data?.message || "Failed to fetch blog");
     }
   };
 
-  const handleLike = async () => {
+  // Fetch comments separately
+  const fetchComments = async () => {
     try {
-      const res = await axios.post(`${url}/blog/like/${id}`, { userId });
+      const res = await axios.get(`${url}/comment/get/${id}`,{withCredentials:true});
+      console.log(res);
+      
+      setComments(res?.data?.comments || []);
+    } catch (err) {
+      console.error(err.response?.data?.message || "Failed to fetch comments");
+    }
+  };
+
+  const handleLike = async (blogId) => {
+    if (!user) {
+      toast.error("Please log in to like the blog!");
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const res = await axios.post(`${url}/blog/like/${blogId}`, {}, { withCredentials: true });
+      const { isLiked, likeCount } = res.data;
+
       setSingleBlog((prev) => ({
         ...prev,
-        blogLikedCounter: res.data.blogLikedCounter,
-        blogLikedUser: res.data.blogLikedUser,
+        blogLikedUser: isLiked
+          ? [...(prev.blogLikedUser || []), userId]
+          : prev.blogLikedUser.filter((id) => id !== userId),
+        blogLikedCounter: likeCount,
       }));
-      toast.success("Blog liked!");
+      toast.success(isLiked ? "Blog liked!" : "Blog unliked!");
     } catch (err) {
-      toast.error(err.response?.data?.message || "Failed to like blog");
+      toast.error(err?.response?.data?.message || "Failed to toggle like");
     }
   };
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
-    if (!commentText.trim()) return;
+    if (!user) {
+      toast.error("Please log in to comment!");
+      navigate("/login");
+      return;
+    }
+    if (!commentText.trim()) {
+      toast.error("Comment cannot be empty!");
+      return;
+    }
 
     try {
-      const res = await axios.post(`${url}/blog/comment/${id}`, {
-        userId,
-        text: commentText,
-      });
-      setSingleBlog((prev) => ({
-        ...prev,
-        comments: [...(prev.comments || []), res.data.comment],
-      }));
+      // Add comment via API
+      await axios.post(
+        `${url}/comment/add/${id}`,
+        { commentText },
+        { withCredentials: true }
+      );
+      // Fetch updated comments after adding
+      await fetchComments();
       setCommentText("");
       toast.success("Comment added!");
     } catch (err) {
@@ -59,23 +92,21 @@ const SingleBlog = () => {
   };
 
   const handleReplySubmit = async (commentId) => {
+    if (!user) {
+      toast.error("Please log in to reply!");
+      navigate("/login");
+      return;
+    }
     const text = replyText[commentId]?.trim();
     if (!text) return;
 
     try {
-      const res = await axios.post(`${url}/blog/comment/${id}/reply`, {
-        userId,
-        commentId,
-        text,
-      });
-      setSingleBlog((prev) => ({
-        ...prev,
-        comments: prev.comments.map((c) =>
-          c._id === commentId
-            ? { ...c, replies: [...(c.replies || []), res.data.reply] }
-            : c
-        ),
-      }));
+      const res = await axios.post(`${url}/blog/comment/${id}/reply`, { commentId, text });
+      setComments((prev) =>
+        prev.map((c) =>
+          c._id === commentId ? { ...c, replies: [...(c.replies || []), res.data.reply] } : c
+        )
+      );
       setReplyText((prev) => ({ ...prev, [commentId]: "" }));
       toast.success("Reply added!");
     } catch (err) {
@@ -84,7 +115,8 @@ const SingleBlog = () => {
   };
 
   useEffect(() => {
-    fetchSingleBlog();
+    fetchSingleBlog(); // Fetch blog only
+    fetchComments(); // Fetch comments separately
   }, [id]);
 
   const isLiked = singleBlog?.blogLikedUser?.includes(userId);
@@ -118,38 +150,39 @@ const SingleBlog = () => {
           <div className={styles.meta_info}>
             <h3>{singleBlog?.category}</h3>
             <button
-              onClick={handleLike}
+              onClick={() => handleLike(singleBlog?._id)}
               className={styles.like_btn}
               title={isLiked ? "Unlike" : "Like"}
             >
-              {isLiked ? <IoHeart /> : <IoHeartOutline />}{" "}
+              {isLiked ? <IoHeart color="red" /> : <IoHeartOutline />}{" "}
               {singleBlog?.blogLikedCounter || 0}
             </button>
           </div>
           <p>{singleBlog?.blogContent}</p>
+        </div>
 
-          <div className={styles.comments_section}>
-            <h3>Comments ({singleBlog?.comments?.length || 0})</h3>
-            <form onSubmit={handleCommentSubmit} className={styles.comment_form}>
-              <input
-                type="text"
-                placeholder="Add your comment"
-                value={commentText}
-                onChange={(e) => setCommentText(e.target.value)}
-              />
-              <button type="submit" className={styles.send_btn}>
-                <IoSend />
-              </button>
-            </form>
+        {/* Separate Comments Container */}
+        <div className={styles.comments_container}>
+          <h3>Comments ({comments.length})</h3>
+          <form onSubmit={handleCommentSubmit} className={styles.comment_form}>
+            <input
+              type="text"
+              placeholder="Add your comment"
+              value={commentText}
+              onChange={(e) => setCommentText(e.target.value)}
+            />
+            <button type="submit" className={styles.send_btn}>
+              <IoSend />
+            </button>
+          </form>
 
-            <div className={styles.comments_list}>
-              {singleBlog?.comments?.map((comment) => (
+          <div className={styles.comments_list}>
+            {comments.length > 0 ? (
+              comments.map((comment) => (
                 <div key={comment._id} className={styles.comment}>
                   <div className={styles.comment_header}>
                     <span>{comment.authorName || "Anonymous"}</span>
-                    <span>
-                      {new Date(comment.createdAt).toLocaleDateString()}
-                    </span>
+                    <span>{new Date(comment.createdAt).toLocaleDateString()}</span>
                   </div>
                   <p>{comment.text}</p>
 
@@ -166,10 +199,7 @@ const SingleBlog = () => {
                         placeholder="Reply to this comment"
                         value={replyText[comment._id] || ""}
                         onChange={(e) =>
-                          setReplyText((prev) => ({
-                            ...prev,
-                            [comment._id]: e.target.value,
-                          }))
+                          setReplyText((prev) => ({ ...prev, [comment._id]: e.target.value }))
                         }
                       />
                       <button type="submit" className={styles.reply_btn}>
@@ -181,17 +211,17 @@ const SingleBlog = () => {
                       <div key={reply._id} className={styles.reply}>
                         <div className={styles.reply_header}>
                           <span>{reply.authorName || "Anonymous"}</span>
-                          <span>
-                            {new Date(reply.createdAt).toLocaleDateString()}
-                          </span>
+                          <span>{new Date(reply.createdAt).toLocaleDateString()}</span>
                         </div>
                         <p>{reply.text}</p>
                       </div>
                     ))}
                   </div>
                 </div>
-              ))}
-            </div>
+              ))
+            ) : (
+              <p>No comments yet. Be the first to comment!</p>
+            )}
           </div>
         </div>
       </div>

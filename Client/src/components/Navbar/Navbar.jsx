@@ -3,10 +3,13 @@ import { IoIosMenu } from "react-icons/io";
 import { RxCross2 } from "react-icons/rx";
 import { Link, NavLink } from "react-router-dom";
 import Button from '../Button/Button';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { motion } from "framer-motion";
+import { storeContext } from '../../context/StoreContext';
 
 const Navbar = () => {
+  const{user,logOutUser}=useContext(storeContext);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -91,9 +94,10 @@ const Navbar = () => {
         </ul>
 
         <div className={styles.auth_div}>
+          {user?<Button text={"Logout"} onClick={logOutUser}/>:
           <NavLink to='/login'>
             <Button text={"Login"} path={'/login'} />
-          </NavLink>
+          </NavLink>}
           {/* <NavLink to='/signup'><Button text={"Signup"} path={'/signup'}/></NavLink> */}
         </div>
 
@@ -123,12 +127,13 @@ const Navbar = () => {
               <NavLink to='/blogs' className={({isActive}) => isActive ? styles.active : ""} onClick={handleMenuToggle}>
                 <li className={styles.mob_list}>Blogs</li>
               </NavLink>
-              <NavLink to='/login' onClick={handleMenuToggle}>
+              <div>
+              {user?<Button text={"Logout"} onClick={logOutUser}/>:
+              <Link to='/login' onClick={handleMenuToggle}>
                 <Button text={"Login"} path={'/login'} />
-              </NavLink>
-              <NavLink to='/signup' onClick={handleMenuToggle}>
-                <Button text={"Signup"} path={'/signup'}/>
-              </NavLink>
+              </Link>}
+              </div>
+              
             </ul>
           </motion.div>
         )}
