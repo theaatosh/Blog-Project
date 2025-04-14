@@ -25,6 +25,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "pending",
   },
+  photo: {
+    type: String,
+  },
 });
 
 export const User = mongoose.model("User", userSchema);

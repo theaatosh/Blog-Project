@@ -17,6 +17,7 @@ import Blogs from "./pages/Blogs/Blogs";
 import ProtectedRoute from "./components/ProtectedRoute";
 import BlogReviewCard from "./Admin/components/BlogReviewCard";
 import AdminBlogs from "./Admin/Pages/AdminBlogs";
+import ProfileComponent from "./pages/ProfilePage/Profile";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -44,7 +45,10 @@ const App = () => {
           element:<ProtectedRoute>
             <CreateBlog />
             </ProtectedRoute>
-       
+        },
+        {
+          path:"/profile/:id",
+          element:<ProfileComponent/>
         },
         {
           path: "/blog/:id",
@@ -74,6 +78,7 @@ const App = () => {
           path: "adminblogs",
           element: <AdminBlogs />,
         },
+       
       ],
     },
   ]);
