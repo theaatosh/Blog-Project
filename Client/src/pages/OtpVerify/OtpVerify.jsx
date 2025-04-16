@@ -1,7 +1,7 @@
 import { FaFingerprint } from "react-icons/fa";
 import { Button } from './Button.jsx'
 import { useContext, useEffect, useRef, useState } from "react";
-import { replace, useLocation, useNavigate } from "react-router-dom";
+import {  useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import {toast } from 'react-toastify';
 import Loading from  '../../components/Loading.jsx'
@@ -46,17 +46,13 @@ export const OtpVerify = () => {
         e.preventDefault();
         
         const otp = otpCon.join('');
-        console.log("OTP Submitted:", otp);
         
         try {
             setIsLoading(true);
-            console.log("hello"+email,otp);
             
             const response = await axios.post(`${url}/user/register/verify`,{email,otp});
-            console.log(response);
             
             if (response.status===200) {
-                console.log(response.data.message);
                 
                 toast.success(response.data.message);
                 navigate('/login',{replace:true});

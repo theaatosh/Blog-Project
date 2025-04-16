@@ -1,6 +1,6 @@
-import React, { Children, useContext } from 'react'
+import  {  useContext } from 'react'
 import { storeContext } from '../context/StoreContext';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate} from 'react-router-dom';
 
 const ProtectedRoute = ({children}) => {
     const {user,loading}=useContext(storeContext);
@@ -9,7 +9,6 @@ const ProtectedRoute = ({children}) => {
     if(loading){
         return <div>Loading...</div>
     }
-    console.log(loading);
         
   return user? children:<Navigate to='/login' replace/>
 }

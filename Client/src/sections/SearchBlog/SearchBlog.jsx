@@ -76,7 +76,6 @@ const{url}=useContext(storeContext)
         <div className={styles.blog_list}>
           {
             blogData?.map((blog)=>{
-              console.log(blog.blog);
               
               return(
                 <div key={blog?._id}>

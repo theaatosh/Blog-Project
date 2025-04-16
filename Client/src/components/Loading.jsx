@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-const Loading = () => {
+const Loading = ({ fullscreen = false }) => {
   return (
-    <StyledWrapper>
+    <StyledWrapper $fullscreen={fullscreen.toString()}>
       <section className="dots-container">
         <div className="dot" />
         <div className="dot" />
@@ -12,7 +12,7 @@ const Loading = () => {
       </section>
     </StyledWrapper>
   );
-}
+};
 
 const StyledWrapper = styled.div`
   .dots-container {
@@ -66,6 +66,20 @@ const StyledWrapper = styled.div`
       background-color: #b3d4fc;
       box-shadow: 0 0 0 0 rgba(178, 212, 252, 0.7);
     }
-  }`;
+  }
+
+  /* Conditional full-screen styles */
+  ${({ $fullscreen }) =>
+    $fullscreen &&
+    `
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100vw;
+      background-color: rgba(255, 255, 255, 0.9); /* Optional: Semi-transparent background */
+      z-index: 9999; /* Ensure it’s above other content */
+    `}
+`;
 
 export default Loading;

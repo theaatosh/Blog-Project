@@ -9,9 +9,11 @@ export const StoreContextProvider = ({ children }) => {
   const url = "http://localhost:5010";
   const [user,setUser]=useState(null);
   const[loading,setLoading]=useState(true);
+  const [initialLoader,setInitialLoader]=useState(true);
 
   //function to logout user
   const logOutUser=async()=>{
+    
     try{
       setLoading(true);
       
@@ -62,7 +64,8 @@ setUser(null);
 
   const value = {
     url,
-    checkUser,user,loading,logOutUser,
+    checkUser,user,loading,logOutUser,setLoading,
+    initialLoader,setInitialLoader
   };
 
   return (
