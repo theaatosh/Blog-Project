@@ -20,6 +20,9 @@ import AdminBlogs from "./Admin/Pages/AdminBlogs";
 import AdminBlogsList from "./Admin/Pages/AdminBlogsList";
 import AdminReviewPage from "./Admin/Pages/AdminReviewPage";
 
+import ProfileComponent from "./pages/ProfilePage/Profile";
+import MyBlogs from "./pages/MyBlogs/MyBlogs";
+
 const App = () => {
   const router = createBrowserRouter([
     {
@@ -47,7 +50,17 @@ const App = () => {
             <ProtectedRoute>
               <CreateBlog />
             </ProtectedRoute>
+
           ),
+
+        },
+        {
+          path:"/profile/:id",
+          element:<ProtectedRoute>
+            <ProfileComponent/>
+          </ProtectedRoute>
+          
+
         },
         {
           path: "/blog/:id",
@@ -56,6 +69,10 @@ const App = () => {
         {
           path: "/blogs",
           element: <Blogs />,
+        },
+        {
+          path: "/myblogs/:id",
+          element: <MyBlogs/>,
         },
         {
           path: "/otp-verify",
@@ -77,6 +94,7 @@ const App = () => {
           path: "adminblogs",
           element: <AdminBlogs />,
         },
+
         {
           path: "adminblogslist",
           element: <AdminBlogsList />,
@@ -85,6 +103,9 @@ const App = () => {
           path: "adminreviewpage",
           element: <AdminReviewPage />,
         },
+
+       
+
       ],
     },
   ]);
