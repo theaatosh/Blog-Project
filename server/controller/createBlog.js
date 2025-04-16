@@ -13,10 +13,11 @@ export const createBlog = async (req, res) => {
       blogContent: blogContent,
       category: category,
       imageUrl: imageUrl,
+      status: "pending",
     });
     await newBlog.save();
     return res.status(201).json({ message: "blog created sucessfully" });
   } catch (err) {
     console.log(err);
   }
-};  
+};

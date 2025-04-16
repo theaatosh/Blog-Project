@@ -36,6 +36,10 @@ import getBlogRoutes from "./route/getBlogRoutes.js";
 import cookieParser from "cookie-parser";
 app.use("/blog", getBlogRoutes);
 
+
+import userDetailsRoute from "./route/AdminRoute/UserDetailsRoutes.js";
+app.use("/admin", userDetailsRoute);
+
 app.listen(PORT, () => {
   connectDb(mongoDbUrl);
   console.log(`Server started on port ${PORT}`);

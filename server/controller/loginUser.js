@@ -37,14 +37,12 @@ export const loginUser = async (req, res) => {
       maxAge: 5 * 24 * 60 * 60 * 1000,
       httpOnly: true,
       sameSite: "lax",
-      secure: false, 
+      secure: false,
     });
-    generateToken(user,res) 
+    generateToken(user, res);
 
     res.status(200).json({ message: "login successfully", user });
   } catch (err) {
-    res.status(200).json({ message: "login successfully",user });
-      } catch (err) {
-    console.log(err);
+    res.status(200).json({ message: "login successfully", user });
   }
 };
