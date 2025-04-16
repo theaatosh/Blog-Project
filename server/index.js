@@ -11,8 +11,10 @@ const mongoDbUrl = process.env.mongoDbUrl;
 
 app.use(
   cors({
+
     origin: ["http://localhost:5173", "http://localhost:5174"],
-    credentials: true,               
+
+            
     
   })
 );
@@ -35,6 +37,10 @@ app.use("/blog", blogLikeCounter);
 import getBlogRoutes from "./route/getBlogRoutes.js";
 import cookieParser from "cookie-parser";
 app.use("/blog", getBlogRoutes);
+
+
+import userDetailsRoute from "./route/AdminRoute/UserDetailsRoutes.js";
+app.use("/admin", userDetailsRoute);
 
 app.listen(PORT, () => {
   connectDb(mongoDbUrl);

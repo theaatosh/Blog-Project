@@ -28,10 +28,21 @@ export const loginUser = async (req, res) => {
     if (!checkPassword) {
       return res.status(400).json({ message: "invalid credentials" });
     }
-    generateToken(user,res) 
+    const secretKey = process.env.secretKey;
+    const token = await jwt.sign({ fullName: user.fullName }, secretKey, {
+      expiresIn: "24h",
+    });
 
-    res.status(200).json({ message: "login successfully",user });
-      } catch (err) {
-    console.log(err);
+    res.cookie("token", token, {
+      maxAge: 5 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      sameSite: "lax",
+      secure: false,
+    });
+    generateToken(user, res);
+
+    res.status(200).json({ message: "login successfully", user });
+  } catch (err) {
+    res.status(200).json({ message: "login successfully", user });
   }
 };
