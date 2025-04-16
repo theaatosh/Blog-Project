@@ -17,6 +17,8 @@ import Blogs from "./pages/Blogs/Blogs";
 import ProtectedRoute from "./components/ProtectedRoute";
 import BlogReviewCard from "./Admin/components/BlogReviewCard";
 import AdminBlogs from "./Admin/Pages/AdminBlogs";
+import AdminBlogsList from "./Admin/Pages/AdminBlogsList";
+import AdminReviewPage from "./Admin/Pages/AdminReviewPage";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -41,10 +43,11 @@ const App = () => {
         },
         {
           path: "/create-blog",
-          element:<ProtectedRoute>
-            <CreateBlog />
+          element: (
+            <ProtectedRoute>
+              <CreateBlog />
             </ProtectedRoute>
-       
+          ),
         },
         {
           path: "/blog/:id",
@@ -73,6 +76,14 @@ const App = () => {
         {
           path: "adminblogs",
           element: <AdminBlogs />,
+        },
+        {
+          path: "adminblogslist",
+          element: <AdminBlogsList />,
+        },
+        {
+          path: "adminreviewpage",
+          element: <AdminReviewPage />,
         },
       ],
     },
