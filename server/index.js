@@ -8,16 +8,17 @@ const app = express();
 const PORT = process.env.PORT;
 const mongoDbUrl = process.env.mongoDbUrl;
 
-app.use(express.json());
-app.use(cookieParser());
+
 app.use(
   cors({
     origin: ["http://localhost:5173" , "http://localhost:5175"],
     credentials: true,               
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    
   })
 );
+app.use(express.json());
+app.use(cookieParser());
+
 
 import loginRegisterRoute from "./route/loginRegisterRoute.js";
 app.use("/user", loginRegisterRoute);

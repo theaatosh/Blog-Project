@@ -14,6 +14,7 @@ import { BlogCard } from "./components/BlogCard/BlogCard";
 import HomePage from "./Admin/Pages/HomePage";
 import { OtpVerify } from "./pages/OtpVerify/OtpVerify";
 import Blogs from "./pages/Blogs/Blogs";
+import ProtectedRoute from "./components/ProtectedRoute";
 import BlogReviewCard from "./Admin/components/BlogReviewCard";
 import AdminBlogs from "./Admin/Pages/AdminBlogs";
 
@@ -40,7 +41,10 @@ const App = () => {
         },
         {
           path: "/create-blog",
-          element: <CreateBlog />,
+          element:<ProtectedRoute>
+            <CreateBlog />
+            </ProtectedRoute>
+       
         },
         {
           path: "/blog/:id",

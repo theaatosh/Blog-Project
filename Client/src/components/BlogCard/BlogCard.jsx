@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styles from "./BlogCard.module.css";
-import { FaHeart } from "react-icons/fa"; // Importing a heart icon for likes
+import { FaHeart } from "react-icons/fa"; 
 
 export const BlogCard = ({ blogDetails }) => {
   const { _id, category, title, blogContent, imageUrl, author, date, likes } =
@@ -11,7 +11,6 @@ export const BlogCard = ({ blogDetails }) => {
   const wordCount = blogContent?.split(" ").length || 0;
   const readingTime = Math.ceil(wordCount / wordsPerMinute);
 
-  // Category color mapping
   const categoryColors = {
     Fashion: { bg_color: "#FCE6F2", color: "rgb(157,54,156)" },
     Tech: { bg_color: "rgb(219,235,255)", color: "rgb(31,125,215)" },
@@ -33,6 +32,15 @@ export const BlogCard = ({ blogDetails }) => {
         <h3>{category}</h3>
         <h2>{title}</h2>
         <p>{blogContent?.slice(0, 200).concat(" ......")}</p>
+
+        <div className={styles.meta_info}>
+          <span className={styles.reading_time}>{readingTime} min read</span>
+          <span className={styles.likes}>
+            <FaHeart /> 
+            <span>{blogLikedCounter >= 0 ? blogLikedCounter : 0}</span> 
+          </span>
+          
+        </div>
 
         <div className={styles.lower_con}>
           <div className={styles.lower_left}>

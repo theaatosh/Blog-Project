@@ -1,6 +1,7 @@
 import { User } from "../model/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { generateToken } from "../utils/generateToken.js";
 
 const checkEmail = async (email) => {
   const match = await User.findOne({ email: email });
@@ -38,9 +39,12 @@ export const loginUser = async (req, res) => {
       sameSite: "lax",
       secure: false, 
     });
+    generateToken(user,res) 
 
     res.status(200).json({ message: "login successfully", user });
   } catch (err) {
+    res.status(200).json({ message: "login successfully",user });
+      } catch (err) {
     console.log(err);
   }
 };
