@@ -1,3 +1,5 @@
+import e from "express";
+import { stat } from "fs";
 import mongoose from "mongoose";
 
 const blogSchema = new mongoose.Schema({
@@ -9,8 +11,12 @@ const blogSchema = new mongoose.Schema({
   category: { type: String },
   blogLikedUser: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   blogLikedCounter: { type: Number, default: 0 },
-  
+  status: {
+    type: String,
+    default: "pending",
+    enum: ["pending", "approved", "rejected"],
+  },
   createdAt: { type: Date, default: Date.now },
 });
 
-export const Blog =mongoose.model("Blog", blogSchema);
+export const Blog = mongoose.model("Blog", blogSchema);
