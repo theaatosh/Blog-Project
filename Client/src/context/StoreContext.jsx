@@ -13,6 +13,7 @@ export const StoreContextProvider = ({ children }) => {
 
   //function to logout user
   const logOutUser=async()=>{
+    
     try{
       setLoading(true);
       

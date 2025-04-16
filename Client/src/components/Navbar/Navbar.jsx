@@ -3,7 +3,7 @@ import { IoIosMenu } from "react-icons/io";
 import { RxCross2 } from "react-icons/rx";
 import { Link, NavLink } from "react-router-dom";
 import Button from '../Button/Button';
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import { motion } from "framer-motion";
 import { storeContext } from '../../context/StoreContext';
 
@@ -12,18 +12,20 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // New state for dropdown
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const userDropDownRef = useRef(null);
 
   // Toggle mobile menu
   const handleMenuToggle = () => {
     setIsMenuOpen(prev => !prev);
-    if (isDropdownOpen) setIsDropdownOpen(false); // Close dropdown if open
+    if (isDropdownOpen) setIsDropdownOpen(false);
   };
 
   // Toggle dropdown
-  const handleDropdownToggle = () => {
+  const handleDropdownToggle = (e) => {
+    e.stopPropagation(); // Prevent event from bubbling to window
     setIsDropdownOpen(prev => !prev);
-    if (isMenuOpen) setIsMenuOpen(false); // Close mobile menu if open
+    if (isMenuOpen) setIsMenuOpen(false);
   };
 
   // Scroll handler
@@ -38,6 +40,26 @@ const Navbar = () => {
     }
 
     setLastScrollY(currentScrollY);
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (userDropDownRef.current && !userDropDownRef.current.contains(e.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    window.addEventListener('click', handleClickOutside);
+
+    return () => {
+      window.removeEventListener('click', handleClickOutside);
+    };
+  }, []); // Removed isDropdownOpen dependency
+
+  const handleLogout = () => {
+    setIsDropdownOpen(false); // Close dropdown
+    logOutUser();
   };
 
   useEffect(() => {
@@ -91,16 +113,19 @@ const Navbar = () => {
 
         <div className={styles.auth_div}>
           {user ? (
-            <div className={styles.userContainer}>
+            <div className={styles.userContainer} ref={userDropDownRef}>
               <div className={styles.circle} onClick={handleDropdownToggle}>
                 <span className={styles.initials}>{getInitials(user.fullName)}</span>
-                <span className={styles.arrow}>▼</span>
               </div>
               {isDropdownOpen && (
                 <ul className={styles.dropdown}>
-                  <li onClick={() => window.location.href = `/profile/${user._id}`}>Profile</li>
-                  <li onClick={() => window.location.href = "/my-blogs"}>My Blogs</li>
-                  <li onClick={logOutUser}>Logout</li>
+                  <Link to={`/profile/${user._id}`}>
+                    <li onClick={handleDropdownToggle}>Profile</li>
+                  </Link>
+                  <Link to={`/myblogs/${user._id}`}>
+                    <li onClick={handleDropdownToggle}>My Blogs</li>
+                  </Link>
+                  <li onClick={handleLogout}>Logout</li>
                 </ul>
               )}
             </div>

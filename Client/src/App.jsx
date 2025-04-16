@@ -18,6 +18,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import BlogReviewCard from "./Admin/components/BlogReviewCard";
 import AdminBlogs from "./Admin/Pages/AdminBlogs";
 import ProfileComponent from "./pages/ProfilePage/Profile";
+import MyBlogs from "./pages/MyBlogs/MyBlogs";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -48,7 +49,10 @@ const App = () => {
         },
         {
           path:"/profile/:id",
-          element:<ProfileComponent/>
+          element:<ProtectedRoute>
+            <ProfileComponent/>
+          </ProtectedRoute>
+          
         },
         {
           path: "/blog/:id",
@@ -57,6 +61,10 @@ const App = () => {
         {
           path: "/blogs",
           element: <Blogs />,
+        },
+        {
+          path: "/myblogs/:id",
+          element: <MyBlogs/>,
         },
         {
           path: "/otp-verify",
