@@ -1,7 +1,6 @@
-/* Profile.module.css */
 .container {
   min-height: 100vh;
-  background: #E2D4C9; /* Keeping your original page background */
+  background: #E2D4C9;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -85,8 +84,6 @@
   margin-bottom: 1.5rem;
 }
 
-
-
 .label {
   display: block;
   color: #B0B0B0;
@@ -126,6 +123,7 @@
 
 .editContainer {
   display: flex;
+  flex-direction: column;
   gap: 0.5rem;
 }
 
