@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import image from '../../assets/login.png';
 import { storeContext } from '../../context/StoreContext';
@@ -7,16 +7,24 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import Loading from '../../components/Loading';
 import styles from './Login.module.css';
-import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Import eye icons
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Login = () => {
-  const { url, checkUser, loading, setLoading } = useContext(storeContext);
+  const { url, checkUser, loading, setLoading,user } = useContext(storeContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [showPassword, setShowPassword] = useState(false); // State for password visibility
+  const [showPassword, setShowPassword] = useState(false);
+  const [forgotPasswordStep, setForgotPasswordStep] = useState(null); // null, 'email', 'otp', 'new-password'
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [otp, setOtp] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [resetToken, setResetToken] = useState("");
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -28,27 +36,25 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       setLoading(true);
       const res = await axios.post(`${url}/user/login`, formData, {
         withCredentials: true,
       });
       if (res.status === 200) {
+        navigate('/');
+
         await checkUser();
         Swal.fire({
           title: 'Welcome!',
-          text: `Logged in successfully as ${res.data.fullName}!`,
+          text: `Logged in as ${res.data.user.fullName}!`,
           icon: 'success',
           confirmButtonText: 'OK',
           timer: 3000,
           timerProgressBar: true,
-        }).then(() => {
-          navigate('/');
-        });
+        })
       }
     } catch (err) {
-      console.log(err);
       toast.error(err?.response?.data?.message || 'Login failed');
     } finally {
       setLoading(false);
@@ -57,6 +63,89 @@ const Login = () => {
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
+  };
+
+  const toggleNewPasswordVisibility = () => {
+    setShowNewPassword((prev) => !prev);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword((prev) => !prev);
+  };
+
+  const handleForgotPasswordEmail = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const res = await axios.post(`${url}/user/forgot-password`, { email: forgotEmail });
+      if (res.status === 200) {
+        setResetToken(res.data.resetToken); // Assuming backend returns a reset token
+        toast.success('OTP sent to your email!');
+        setForgotPasswordStep('otp');
+      }
+    } catch (err) {
+      toast.error(err?.response?.data?.message || 'Failed to send OTP');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleVerifyOtp = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const res = await axios.post(`${url}/user/verify-otp`, {
+        email: forgotEmail,
+        otp,
+        resetToken, 
+      });
+      if (res.status === 200) {
+        toast.success('OTP verified successfully!');
+        setOtp("");
+        setForgotPasswordStep('new-password');
+      }
+    } catch (err) {
+      toast.error(err?.response?.data?.message || 'Invalid OTP');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    if (newPassword !== confirmPassword) {
+      toast.error('Passwords do not match');
+      return;
+    }
+    try {
+      setLoading(true);
+      const res = await axios.post(`${url}/user/create-password`, {
+        email: forgotEmail,
+        newPassword,
+        confirmPassword
+      });
+      if (res.status === 200) {
+        toast.success('Password reset successfully!');
+        setForgotPasswordStep(null);
+        setForgotEmail("");
+        setNewPassword("");
+        setConfirmPassword("");
+        setResetToken("");
+      }
+    } catch (err) {
+      toast.error(err?.response?.data?.message || 'Failed to reset password');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const closeModal = () => {
+    setForgotPasswordStep(null);
+    setForgotEmail("");
+    setOtp("");
+    setNewPassword("");
+    setConfirmPassword("");
+    setResetToken("");
   };
 
   return (
@@ -101,6 +190,14 @@ const Login = () => {
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </span>
               </div>
+              <p className={styles['forgot-password']}>
+                <span
+                  onClick={() => setForgotPasswordStep('email')}
+                  className={styles['forgot-password-link']}
+                >
+                  Forgot Password?
+                </span>
+              </p>
             </div>
             <button type="submit" className={styles['login-button']} disabled={loading}>
               {loading ? 'Logging in...' : 'Login'}
@@ -114,6 +211,134 @@ const Login = () => {
           </p>
         </div>
       </div>
+
+      {forgotPasswordStep === 'email' && (
+        <div className={styles['modal-overlay']}>
+          <div className={styles['modal-content']}>
+            <h3 className={styles['modal-title']}>Reset Password</h3>
+            <form onSubmit={handleForgotPasswordEmail}>
+              <div className={styles['input-group']}>
+                <label className={styles['input-label']}>Email</label>
+                <input
+                  type="email"
+                  value={forgotEmail}
+                  onChange={(e) => setForgotEmail(e.target.value)}
+                  className={styles['input-field']}
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+              <div className={styles['modal-buttons']}>
+                <button
+                  type="button"
+                  className={styles['modal-cancel']}
+                  onClick={closeModal}
+                >
+                  Cancel
+                </button>
+                <button type="submit" className={styles['modal-submit']} disabled={loading}>
+                  {loading ? 'Sending...' : 'Send OTP'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {forgotPasswordStep === 'otp' && (
+        <div className={styles['modal-overlay']}>
+          <div className={styles['modal-content']}>
+            <h3 className={styles['modal-title']}>Verify OTP</h3>
+            <form onSubmit={handleVerifyOtp}>
+              <div className={styles['input-group']}>
+                <label className={styles['input-label']}>OTP</label>
+                <input
+                  type="text"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  className={styles['input-field']}
+                  placeholder="Enter the OTP"
+                  required
+                />
+              </div>
+              <div className={styles['modal-buttons']}>
+                <button
+                  type="button"
+                  className={styles['modal-cancel']}
+                  onClick={closeModal}
+                >
+                  Cancel
+                </button>
+                <button type="submit" className={styles['modal-submit']} disabled={loading}>
+                  {loading ? 'Verifying...' : 'Verify OTP'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {forgotPasswordStep === 'new-password' && (
+        <div className={styles['modal-overlay']}>
+          <div className={styles['modal-content']}>
+            <h3 className={styles['modal-title']}>Set New Password</h3>
+            <form onSubmit={handleResetPassword}>
+              <div className={styles['input-group']}>
+                <label className={styles['input-label']}>New Password</label>
+                <div className={styles['password-container']}>
+                  <input
+                    type={showNewPassword ? "text" : "password"}
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    className={styles['input-field']}
+                    placeholder="Enter new password"
+                    required
+                  />
+                  <span
+                    className={styles['eye-icon']}
+                    onClick={toggleNewPasswordVisibility}
+                    aria-label={showNewPassword ? "Hide password" : "Show password"}
+                  >
+                    {showNewPassword ? <FaEyeSlash /> : <FaEye />}
+                  </span>
+                </div>
+              </div>
+              <div className={styles['input-group']}>
+                <label className={styles['input-label']}>Confirm Password</label>
+                <div className={styles['password-container']}>
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className={styles['input-field']}
+                    placeholder="Confirm new password"
+                    required
+                  />
+                  <span
+                    className={styles['eye-icon']}
+                    onClick={toggleConfirmPasswordVisibility}
+                    aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                  >
+                    {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                  </span>
+                </div>
+              </div>
+              <div className={styles['modal-buttons']}>
+                <button
+                  type="button"
+                  className={styles['modal-cancel']}
+                  onClick={closeModal}
+                >
+                  Cancel
+                </button>
+                <button type="submit" className={styles['modal-submit']} disabled={loading}>
+                  {loading ? 'Updating...' : 'Update Password'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

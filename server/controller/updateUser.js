@@ -2,16 +2,13 @@ import {User} from "../model/user.js"
 import bcrypt from "bcrypt";
 export const updateUser=async(req,res)=>{
     const userId=req.user;
-        const {fullName,email,password}=req.body;
+        const {fullName,email}=req.body;
         const imageUrl=req?.file?.path;
-        console.log(req.file);
         
-        const hashedPassword=await bcrypt.hash(password,10);
 
         const data={
             fullName,
             email,
-            password:hashedPassword,
             photo:imageUrl
         }
 
