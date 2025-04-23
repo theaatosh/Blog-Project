@@ -8,19 +8,13 @@ const app = express();
 const PORT = process.env.PORT;
 const mongoDbUrl = process.env.mongoDbUrl;
 
-
 app.use(
   cors({
-
     origin: ["http://localhost:5173", "http://localhost:5174"],
-
-            
-    
   })
 );
 app.use(express.json());
 app.use(cookieParser());
-
 
 import loginRegisterRoute from "./route/loginRegisterRoute.js";
 app.use("/user", loginRegisterRoute);
@@ -38,9 +32,11 @@ import getBlogRoutes from "./route/getBlogRoutes.js";
 import cookieParser from "cookie-parser";
 app.use("/blog", getBlogRoutes);
 
-
 import userDetailsRoute from "./route/AdminRoute/UserDetailsRoutes.js";
 app.use("/admin", userDetailsRoute);
+
+import contactUsFormRoute from "./route/contactUsFormRoute.js";
+app.use("/api/contact", contactUsFormRoute);
 
 app.listen(PORT, () => {
   connectDb(mongoDbUrl);
