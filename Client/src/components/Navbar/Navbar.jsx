@@ -115,18 +115,22 @@ const Navbar = () => {
           {user ? (
             <div className={styles.userContainer} ref={userDropDownRef}>
               <div className={styles.circle} onClick={handleDropdownToggle}>
-                <span className={styles.initials}>{getInitials(user.fullName)}</span>
+                <span className={styles.initials}>{user?.photo&&<img src={user.photo} style={{width:'100%',height:'100%',borderRadius:'50%',objectFit:'cover'}}/>||getInitials(user.fullName)}</span>
               </div>
               {isDropdownOpen && (
-                <ul className={styles.dropdown}>
-                  <Link to={`/profile/${user._id}`}>
-                    <li onClick={handleDropdownToggle}>Profile</li>
-                  </Link>
-                  <Link to={`/myblogs/${user._id}`}>
-                    <li onClick={handleDropdownToggle}>My Blogs</li>
-                  </Link>
-                  <li onClick={handleLogout}>Logout</li>
-                </ul>
+               <ul className={styles.dropdown}>
+  <li>
+    <Link to={`/profile/${user._id}`} onClick={handleDropdownToggle}>
+      Profile
+    </Link>
+  </li>
+  <li>
+    <Link to={`/myblogs/${user._id}`} onClick={handleDropdownToggle}>
+      My Blogs
+    </Link>
+  </li>
+  <li onClick={handleLogout}>Logout</li>
+</ul>
               )}
             </div>
           ) : (

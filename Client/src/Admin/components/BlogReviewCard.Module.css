@@ -1,5 +1,5 @@
 .blog-card {
-  width: 300px;
+  width: 55vh;
   background: #fff;
   border-radius: 10px;
   overflow: hidden;
@@ -53,7 +53,8 @@
 }
 
 .review-btn,
-.approve-btn {
+.approve-btn,
+.deletes-btn {
   flex: 1;
   padding: 8px;
   border: none;
@@ -72,10 +73,17 @@
 }
 
 .approve-btn {
-  background: #ff6f61;
+  background: #4caf50;
   color: white;
 }
 
 .approve-btn:hover {
+  background: #45a049;
+}
+.deletes-btn {
+  background: #ff6f61;
+  color: white;
+}
+.deletes-btn:hover {
   background: #e65a50;
 }

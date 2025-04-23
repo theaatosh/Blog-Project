@@ -1,4 +1,5 @@
-import { Blog } from "../../../model/createBlog.js";
+
+import {Blog} from "../../model/createBlog.js";
 
 const getblogReview = async (req, res) => {
   try {

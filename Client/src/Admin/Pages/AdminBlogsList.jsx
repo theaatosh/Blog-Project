@@ -1,35 +1,31 @@
 import React, { useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import "../Styles/UserDetails.css";
+import "../Styles/AdminBlogslist.css";
 
-const UserDetails = () => {
+const AdminBlogslist = () => {
   const [data, setData] = useState([
     {
-      name: "Sandesh Basnet",
-      email: "sandesh@gmail.com",
+      title: "First Blog Post",
     },
     {
-      name: "Ramesh Shrestha",
-      email: "ramesh@gmail.com",
+      title: "Second Blog Post",
     },
     {
-      name: "Sita Thapa",
-      email: "sita@gmail.com",
+      title: "Third Blog Post",
     },
     {
-      name: "Hari Gurung",
-      email: "hari@gmail.com",
+      title: "Fourth Blog Post",
     },
   ]);
 
   return (
     <div className="user-details-main">
-      <h1 className="user-details-text">User Details</h1>
-      <div className="search-container">
+      <h1 className="blog-list-text">Blog List</h1>
+      <div className="bloglist-search-container">
         <input
           type="text"
-          placeholder="Search Users ..."
+          placeholder="Search Blogs ..."
           className="search-input"
         />
       </div>
@@ -37,16 +33,14 @@ const UserDetails = () => {
         <table className="user-table">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Email</th>
+              <th>Title</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {data.map((item, index) => (
               <tr key={index} className="table-row">
-                <td>{item.name}</td>
-                <td>{item.email}</td>
+                <td>{item.title}</td>
                 <td className="action-buttons">
                   <button className="edit-btn">
                     <FaRegEdit /> Edit
@@ -64,4 +58,4 @@ const UserDetails = () => {
   );
 };
 
-export default UserDetails;
+export default AdminBlogslist;

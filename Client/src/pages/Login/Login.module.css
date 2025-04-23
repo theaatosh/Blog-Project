@@ -175,7 +175,6 @@
   background: linear-gradient(135deg, #e55a5a, #FF6B6B);
   transform: scale(1.05);
   box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
-  
 }
 
 .login-button:disabled {
@@ -201,6 +200,125 @@
   color: #e55a5a;
 }
 
+.password-container {
+  position: relative;
+  width: 100%;
+}
+
+.input-field[type="password"],
+.input-field[type="text"] {
+  padding-right: 40px;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #666;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+}
+
+.eye-icon:hover {
+  color: #333;
+}
+
+.forgot-password {
+  margin-top: 0.5rem;
+  text-align: right;
+}
+
+.forgot-password-link {
+  font-size: 0.85rem;
+  color: #FF6B6B;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.forgot-password-link:hover {
+  text-decoration: underline;
+  color: #e55a5a;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.3s ease-out;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #343A40;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+
+.modal-cancel {
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #343A40;
+  background: #d1d5db;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.modal-cancel:hover {
+  background: #b0b3b8;
+  transform: scale(1.05);
+}
+
+.modal-submit {
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: linear-gradient(135deg, #FF6B6B, #e55a5a);
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.modal-submit:hover:not(:disabled) {
+  background: linear-gradient(135deg, #e55a5a, #FF6B6B);
+  transform: scale(1.05);
+}
+
+.modal-submit:disabled {
+  background: #d1d5db;
+  cursor: not-allowed;
+}
+
 @media (max-width: 768px) {
   .login-container {
     padding: 1rem;
@@ -212,7 +330,7 @@
     background: #ffffff;
     backdrop-filter: none;
   }
-  .login-image-container {
+  .loginbourhood-image-container {
     display: none;
   }
   .login-form-container {
@@ -253,34 +371,19 @@
   .login-text {
     font-size: 0.85rem;
   }
-}
-
-/* Container for password input and eye icon */
-.password-container {
-  position: relative;
-  width: 100%;
-}
-
-/* Style for the input field to accommodate the icon */
-.input-field[type="password"],
-.input-field[type="text"] {
-  padding-right: 40px; /* Space for the eye icon */
-}
-
-/* Eye icon styling */
-.eye-icon {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: #666;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-}
-
-/* Optional: Hover effect for better UX */
-.eye-icon:hover {
-  color: #333;
+  .modal-content {
+    padding: 1.5rem;
+  }
+  .modal-title {
+    font-size: 1.1rem;
+  }
+  .modal-buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .modal-cancel,
+  .modal-submit {
+    width: 100%;
+    padding: 0.6rem;
+  }
 }

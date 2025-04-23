@@ -1,15 +1,15 @@
 .user-details-main {
-  /* background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); */
   min-height: 100vh;
   padding-left: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* border: 1px solid black; */
   margin-left: 10rem;
+  /* border: 1px solid red; */
+  width: 100vh;
 }
 
-.user-details-text {
+.blog-list-text {
   font-size: 2.5rem;
   font-weight: 700;
   color: #333;
@@ -17,7 +17,7 @@
   text-align: center;
 }
 
-.search-container {
+.bloglist-search-container {
   margin-bottom: 2rem;
   width: 100%;
   max-width: 600px;
@@ -55,7 +55,6 @@
 }
 
 .user-table th {
-  /* background: #edf4f8; */
   color: black;
   padding: 15px;
   font-weight: 600;
@@ -93,6 +92,7 @@
 .delete-btn {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 5px;
   padding: 8px 15px;
   border: none;
@@ -100,6 +100,8 @@
   font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.3s ease;
+  width: 100px;
+  box-sizing: border-box;
 }
 
 .edit-btn {
