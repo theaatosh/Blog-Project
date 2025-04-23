@@ -7,6 +7,8 @@ import { FaFacebook } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -14,9 +16,7 @@ const ContactUs = () => {
     email: "",
     subject: "",
     message: "",
-    image: null
   });
-  const [imagePreview, setImagePreview] = useState(null);
 
   // Refs for scroll detection
   const headerRef = useRef(null);
@@ -25,51 +25,66 @@ const ContactUs = () => {
 
   // Detect when elements are in view
   const headerInView = useInView(headerRef, { margin: "-100px" });
-  
+
   const formInView = useInView(formRef, { margin: "-100px" });
-  
+
   const infoInView = useInView(infoRef, { margin: "-200px" });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setFormData(prev => ({ ...prev, image: file }));
-      setImagePreview(URL.createObjectURL(file));
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(formData);
+    try {
+      const res = await axios.post(
+        "http://localhost:5010/api/contact",
+        formData
+      );
+      if (res.status === 200) {
+        toast.success(res?.data?.message);
+        setFormData({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
+      } else {
+        toast.error(res?.data?.message);
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
   // Animation variants
   const sectionVariants = {
     hidden: { opacity: 0, y: 50 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
-      transition: { 
+      transition: {
         duration: 0.6,
         ease: "easeOut",
         when: "beforeChildren",
-        staggerChildren: 0.1
-      }
-    }
+        staggerChildren: 0.1,
+      },
+    },
   };
 
   const childVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
-      transition: { duration: 0.4 }
-    }
+      transition: { duration: 0.4 },
+    },
   };
 
   return (
     <div className="contact-page-wrapper">
-      <motion.div 
+      <motion.div
         ref={headerRef}
         className="contactUs"
         variants={sectionVariants}
@@ -82,34 +97,36 @@ const ContactUs = () => {
           </motion.div>
           <motion.div className="contactUsDetails" variants={childVariants}>
             <b>
-              We&apos;d love to hear from you! Share your thoughts, questions, or collaboration ideas.
+              We&apos;d love to hear from you! Share your thoughts, questions,
+              or collaboration ideas.
             </b>
           </motion.div>
         </motion.div>
-        <motion.div 
-          className="contactUsImg"
-          variants={childVariants}
-        />
+        <motion.div className="contactUsImg" variants={childVariants} />
       </motion.div>
 
-      <motion.div 
+      <motion.div
         className="contactUsForm"
         variants={sectionVariants}
         initial="hidden"
         animate={formInView || infoInView ? "visible" : "hidden"}
       >
-        <motion.div 
+        <motion.div
           ref={infoRef}
-          className="locationInfo" 
+          className="locationInfo"
           variants={childVariants}
         >
           <div className="manageInfoDiv">
             {[
-              { icon: <FaLocationDot />, head: "Address", details: "Sallaghari, Bhaktapur" },
+              {
+                icon: <FaLocationDot />,
+                head: "Address",
+                details: "Sallaghari, Bhaktapur",
+              },
               { icon: <FaPhoneAlt />, head: "Phone", details: "9800000000" },
-              { icon: <MdEmail />, head: "Email", details: "blog@gmail.com" }
+              { icon: <MdEmail />, head: "Email", details: "blog@gmail.com" },
             ].map((info, index) => (
-              <motion.div 
+              <motion.div
                 key={index}
                 className="manageInfo"
                 variants={childVariants}
@@ -118,7 +135,9 @@ const ContactUs = () => {
               >
                 <div className="icons">{info.icon}</div>
                 <div className="infos">
-                  <div className="infoHead"><b>{info.head}</b></div>
+                  <div className="infoHead">
+                    <b>{info.head}</b>
+                  </div>
                   <div className="infoDetails">{info.details}</div>
                 </div>
               </motion.div>
@@ -129,21 +148,23 @@ const ContactUs = () => {
               Follow Us
             </motion.div>
             <motion.div className="manageIcons" variants={childVariants}>
-              {[RiInstagramFill, FaFacebook, FaSquareXTwitter].map((Icon, index) => (
-                <motion.div
-                  key={index}
-                  className="icons"
-                  whileHover={{ scale: 1.2, rotate: 360 }}
-                  transition={{ type: "spring", stiffness: 260, damping: 20 }}
-                >
-                  <Icon />
-                </motion.div>
-              ))}
+              {[RiInstagramFill, FaFacebook, FaSquareXTwitter].map(
+                (Icon, index) => (
+                  <motion.div
+                    key={index}
+                    className="icons"
+                    whileHover={{ scale: 1.2, rotate: 360 }}
+                    transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                  >
+                    <Icon />
+                  </motion.div>
+                )
+              )}
             </motion.div>
           </div>
         </motion.div>
 
-        <motion.div 
+        <motion.div
           ref={formRef}
           className="letTalkForm"
           variants={childVariants}
@@ -155,7 +176,7 @@ const ContactUs = () => {
             {[
               { label: "Full Name", name: "name", type: "text" },
               { label: "Email", name: "email", type: "email" },
-              { label: "Subject", name: "subject", type: "text" }
+              { label: "Subject", name: "subject", type: "text" },
             ].map((field) => (
               <motion.div
                 key={field.name}
@@ -175,8 +196,8 @@ const ContactUs = () => {
               </motion.div>
             ))}
 
-            <motion.div 
-              className="messageTeaxtArea" 
+            <motion.div
+              className="messageTeaxtArea"
               variants={childVariants}
               whileHover={{ scale: 1.02 }}
             >
@@ -191,33 +212,15 @@ const ContactUs = () => {
               />
             </motion.div>
 
-            <motion.div variants={childVariants} whileHover={{ scale: 1.02 }}>
-              <label htmlFor="image">Upload Image</label>
-              <input
-                type="file"
-                id="image"
-                name="image"
-                accept="image/*"
-                onChange={handleImageChange}
-              />
-            </motion.div>
-
-            {imagePreview && (
-              <motion.div
-                className="image-preview"
-                variants={childVariants}
-              >
-                <img src={imagePreview} alt="Preview" />
-              </motion.div>
-            )}
-
-            <motion.div 
+            <motion.div
               className="submitBtn"
               variants={childVariants}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <button type="submit">Send Message</button>
+              <button type="submit" onClick={handleSubmit}>
+                Send Message
+              </button>
             </motion.div>
           </form>
         </motion.div>
