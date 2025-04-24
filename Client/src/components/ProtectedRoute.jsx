@@ -5,7 +5,7 @@ import { Navigate} from 'react-router-dom';
 const ProtectedRoute = ({children}) => {
     const {user,loading}=useContext(storeContext);
     
-
+console.log(user)
     if(loading){
         return <div>Loading...</div>
     }

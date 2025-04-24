@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 const CreateBlog = () => {
   const { url } = useContext(storeContext);
   const navigate = useNavigate();
-
+  const[isPublishing,setIsPublishing]=useState(false);
   const [formData, setFormData] = useState({
     blogTitle: "",
     authorName: "",
@@ -86,7 +86,8 @@ const CreateBlog = () => {
     }
 
     try {
-      const res = await axios.post(`${url}/createBlog`, formDatas);
+      setIsPublishing(true);
+      const res = await axios.post(`${url}/createBlog`, formDatas,{withCredentials:true});
       if (res.status === 201) {
         await Swal.fire({
           title: "Blog Published!",
@@ -115,6 +116,8 @@ const CreateBlog = () => {
         confirmButtonText: "Try Again",
         confirmButtonColor: "#ff6b6b", // Matches --secondary-color
       });
+    }finally{
+      setIsPublishing(false);
     }
   };
 
@@ -302,7 +305,7 @@ const CreateBlog = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 1, duration: 0.4 }}
             >
-              Publish Blog
+              {isPublishing?"Publishing...":"Publish Blog"}
             </motion.button>
           </form>
         </div>

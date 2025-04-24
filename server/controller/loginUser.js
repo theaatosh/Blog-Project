@@ -11,6 +11,9 @@ const checkEmail = async (email) => {
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
   console.log(email, password);
+  if(!email || !password){
+   return res.status(400).json({ message: "please fill all the fields" });
+  }
   try {
     const isEmailAvailable = await checkEmail(email);
     if (!isEmailAvailable) {
