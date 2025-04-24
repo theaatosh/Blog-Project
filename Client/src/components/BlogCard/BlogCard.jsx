@@ -31,7 +31,6 @@ export const BlogCard = ({ blogDetails }) => {
 
   const categoryBgColor = categoryColors[category]?.bg_color || "#ECECEC";
   const textColor = categoryColors[category]?.color || "#333333";
-console.log(blogDetails);
   return (
     <div className={styles.card_container}>
       <div className={styles.img_con}>

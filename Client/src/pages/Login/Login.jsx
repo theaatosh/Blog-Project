@@ -42,7 +42,12 @@ const Login = () => {
         withCredentials: true,
       });
       if (res.status === 200) {
-        navigate('/');
+        if(res.data.user.role==="admin"){
+          navigate('/admin');
+        }else{
+          navigate('/');
+
+        }
 
         await checkUser();
         Swal.fire({

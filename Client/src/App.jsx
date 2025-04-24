@@ -22,6 +22,8 @@ import AdminReviewPage from "./Admin/Pages/AdminReviewPage";
 
 import ProfileComponent from "./pages/ProfilePage/Profile";
 import MyBlogs from "./pages/MyBlogs/MyBlogs";
+import { AdminProtect } from "./Admin/components/AdminProtect";
+import { NotFound } from "./pages/NotFound/NotFound";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -72,18 +74,22 @@ const App = () => {
         },
         {
           path: "/myblogs/:id",
-          element: <MyBlogs/>,
+          element: <ProtectedRoute><MyBlogs/></ProtectedRoute> ,
         },
         {
           path: "/otp-verify",
           element: <OtpVerify />,
         },
+        {
+          path:"*",
+          element:<NotFound/>
+        }
       ],
     },
 
     {
       path: "/admin",
-      element: <AdminLayout />,
+      element:<AdminProtect> <AdminLayout /></AdminProtect>,
       children: [
         { index: true, element: <HomePage /> },
         {
