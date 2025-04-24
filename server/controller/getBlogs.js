@@ -3,7 +3,7 @@ import { Comment } from "../model/comment.js";
 
 export const getBlogs = async (req, res) => {
   try {
-    const blogs = await Blog.find({ status: "approved" });
+    const blogs = await Blog.find({ status: "approved" }).populate({path:"createdBy",select:"fullName photo"});
     const blogsDetails = [];
     for (let i = 0; i < blogs.length; i++) {
       try {
@@ -28,8 +28,8 @@ export const getBlogsByCategory = async (req, res) => {
   const { category } = req.params;
 
   try {
-    const query = category === "All" ? {} : { category };
-    const blogs = await Blog.find(query, { status: "approved" });
+    const query = category === "All" ? {status: "approved"} : { category,status:"approved" };
+    const blogs = await Blog.find(query).populate({path:"createdBy",select:"fullName photo"});
     res.status(200).json({ blogs: blogs });
   } catch (err) {
     console.log(err);
@@ -39,7 +39,7 @@ export const getBlogsByCategory = async (req, res) => {
 export const getFullBlog = async (req, res) => {
   const { id } = req.params;
   try {
-    const blog = await Blog.findById(id);
+    const blog = await Blog.findById(id).populate({path:"createdBy",select:"fullName photo"});
     if (!blog) {
       return res.status(404).json({ message: "Blog not found" });
     }
