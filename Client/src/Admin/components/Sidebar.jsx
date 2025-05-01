@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TiThMenu } from "react-icons/ti";
 import { FiLogOut } from "react-icons/fi";
 import { IoHomeOutline } from "react-icons/io5";
@@ -12,7 +12,6 @@ const SIDEBAR_ITEMS = [
   { name: "HomePage", href: "/admin", icon: <IoHomeOutline /> },
   { name: "UserDetails", href: "/admin/userdetails", icon: <FaRegUser /> },
   { name: "New Blogs", href: "/admin/adminblogs", icon: <RiBloggerLine /> },
-
   {
     name: "Blogs List",
     href: "/admin/adminblogslist",
@@ -22,7 +21,17 @@ const SIDEBAR_ITEMS = [
 ];
 
 const Sidebar = ({ children }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(
+    () => window.innerWidth > 768
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSidebarOpen(window.innerWidth > 768);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleToggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -52,4 +61,5 @@ const Sidebar = ({ children }) => {
     </div>
   );
 };
+
 export default Sidebar;
