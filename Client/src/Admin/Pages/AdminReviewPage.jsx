@@ -1,50 +1,93 @@
-import React from "react";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import "../Styles/AdminReviewPage.css";
-import travelImg from "/travel.jpeg";
-import profile from "/profile.png";
+import axios from "axios";
 
 const AdminReviewPage = () => {
-  const blogData = [
-    {
-      category: "TRAVEL",
-      title:
-        "Wanderlust Chronicles: Exploring the World, One Destination at a Time",
-      description:
-        "Travel isn’t just about visiting new places; it’s about experiencing different cultures, meeting new people, and creating memories that last a lifetime. Whether you’re a solo traveler, an adventure seeker, or a luxury enthusiast, every journey has something unique to offer. In this blog we’ll dive into the beauty of travel, must-visit destinations, travel tips, and more.",
-      image: travelImg,
-      author: {
-        name: "Anthony Mackie",
-        image: profile,
-      },
-      publishDate: "20th January, 2025",
-    },
-  ];
+  const [blogData, setBlogData] = useState(null);
+  const { id } = useParams();
+  const Navigate = useNavigate();
+  async function getSingleBlog() {
+    try {
+      const res = await axios.get(
+        `http://localhost:5010/admin/blog/singleBlogReview/${id}`
+      );
+      if (res.status === 200) {
+        console.log("Response from server:", res.data.blog);
+        setBlogData(res.data.blog);
+        console.log(blogData);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async function approveBlog() {
+    console.log("Approving blog with ID:", id);
+    try {
+      const res = await axios.patch(
+        `http://localhost:5010/admin/blog/approve/${id}`
+      );
+      if (res.status === 200) {
+        console.log("Blog approved successfully:", res.data.message);
+        Navigate("/admin/adminblogs");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async function rejectBlog() {
+    console.log("Rejecting blog with ID:", id);
+    try {
+      const res = await axios.patch(
+        `http://localhost:5010/admin/blog/reject/${id}`
+      );
+      if (res.status === 200) {
+        console.log("Blog rejected successfully:", res.data.message);
+        Navigate("/admin/adminblogs");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    if (id) getSingleBlog();
+  }, [id]);
 
   return (
     <div className="admin-review-container">
       <h2>Blog Review</h2>
-      {blogData.map((blog, index) => (
-        <div className="review-blog-card" key={index}>
-          <img src={blog.image} alt="Blog" className="review-blog-image" />
-          <div className="review-blog-content">
-            <span className="category">{blog.category}</span>
-            <h3>{blog.title}</h3>
-            <p>{blog.description}</p>
-            <div className="author-section">
-              <img
-                src={blog.author.image}
-                alt="Author"
-                className="author-image"
-              />
-              <div className="author-details">
-                <span className="author-name">{blog.author.name}</span>
-                <span className="publish-date">{blog.publishDate}</span>
-              </div>
+      <div className="review-blog-card" key={blogData?._id}>
+        <img
+          src={blogData?.imageUrl}
+          alt="Blog"
+          className="review-blog-image"
+        />
+        <div className="review-blog-content">
+          <span className="category">{blogData?.category}</span>
+          <h3>{blogData?.blogTitle}</h3>
+          <p>{blogData?.blogContent}</p>
+          {/* <div className="author-section">
+            <img
+              src={blogData?.author.image}
+              alt="Author"
+              className="author-image"
+            />
+            <div className="author-details">
+              <span className="author-name">{blogData.authorName}</span>
+              <span className="publish-date">{blogData.createdAt}</span>
             </div>
-            <button className="decline-button">Decline</button>
+          </div> */}
+          <div className="review-actions">
+            <button className="decline-button" onClick={rejectBlog}>
+              Decline
+            </button>
+            <button className="approve-button" onClick={approveBlog}>
+              Approve
+            </button>
           </div>
         </div>
-      ))}
+      </div>
     </div>
   );
 };

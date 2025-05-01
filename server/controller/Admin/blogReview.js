@@ -11,6 +11,7 @@ const getblogReview = async (req, res) => {
   }
 };
 const singleBlogReview = async (req, res) => {
+  console.log("Single blog review called");
   const { id } = req.params;
   try {
     const blog = await Blog.findById(id);

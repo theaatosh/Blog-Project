@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Swal from "sweetalert2";
 import "../Styles/UserDetails.css";
@@ -9,17 +9,15 @@ const UserDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Base API URL (adjust as per your backend setup)
-  const API_URL = "http://localhost:5010/admin/userDetails";
+  const API_URL = "http://localhost:5010/admin/";
 
-  // Fetch users from the backend
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch(API_URL);
+        const response = await fetch(`${API_URL}/userDetails`);
         const result = await response.json();
         if (response.ok) {
-          setData(result.userDetails); // Backend returns { userDetails: users }
+          setData(result.userDetails);
           setLoading(false);
         } else {
           throw new Error(result.message || "Failed to fetch users");
@@ -46,6 +44,7 @@ const UserDetails = () => {
 
   // Handle delete user
   const handleDelete = async (id) => {
+    console.log(id);
     const result = await Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -58,7 +57,7 @@ const UserDetails = () => {
 
     if (result.isConfirmed) {
       try {
-        const response = await fetch(`${API_URL}/${id}`, {
+        const response = await fetch(`${API_URL}/deleteUser/${id}`, {
           method: "DELETE",
         });
         const result = await response.json();

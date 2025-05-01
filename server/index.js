@@ -37,6 +37,9 @@ app.use("/blog", getBlogRoutes);
 import userDetailsRoute from "./route/AdminRoute/UserDetailsRoutes.js";
 app.use("/admin", userDetailsRoute);
 
+import blogReviewRoutes from "./route/AdminRoute/blogReviewRoutes.js";
+app.use("/admin/blog", blogReviewRoutes);
+
 import contactUsFormRoute from "./route/contactUsFormRoute.js";
 app.use("/api/contact", contactUsFormRoute);
 

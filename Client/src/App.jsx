@@ -50,17 +50,15 @@ const App = () => {
             <ProtectedRoute>
               <CreateBlog />
             </ProtectedRoute>
-
           ),
-
         },
         {
-          path:"/profile/:id",
-          element:<ProtectedRoute>
-            <ProfileComponent/>
-          </ProtectedRoute>
-          
-
+          path: "/profile/:id",
+          element: (
+            <ProtectedRoute>
+              <ProfileComponent />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "/blog/:id",
@@ -72,7 +70,7 @@ const App = () => {
         },
         {
           path: "/myblogs/:id",
-          element: <MyBlogs/>,
+          element: <MyBlogs />,
         },
         {
           path: "/otp-verify",
@@ -100,12 +98,9 @@ const App = () => {
           element: <AdminBlogsList />,
         },
         {
-          path: "adminreviewpage",
+          path: "adminreviewpage/:id",
           element: <AdminReviewPage />,
         },
-
-       
-
       ],
     },
   ]);
