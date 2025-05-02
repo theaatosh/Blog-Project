@@ -30,19 +30,16 @@ const UserDetails = () => {
     fetchUsers();
   }, []);
 
-  // Handle search input
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  // Filter users based on search term
   const filteredData = data.filter(
     (item) =>
       item.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Handle delete user
   const handleDelete = async (id) => {
     console.log(id);
     const result = await Swal.fire({
@@ -89,33 +86,35 @@ const UserDetails = () => {
         />
       </div>
       <div className="user-details-container">
-        <table className="user-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredData.map((item) => (
-              <tr key={item._id} className="table-row">
-                <td>{item.fullName}</td>
-                <td>{item.email}</td>
-                <td>{item.status || "N/A"}</td>
-                <td className="action-buttons">
-                  <button
-                    className="delete-btn"
-                    onClick={() => handleDelete(item._id)}
-                  >
-                    <RiDeleteBin6Line /> Delete
-                  </button>
-                </td>
+        <div className="table-wrapper">
+          <table className="user-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredData.map((item) => (
+                <tr key={item._id} className="table-row">
+                  <td data-label="Name">{item.fullName}</td>
+                  <td data-label="Email">{item.email}</td>
+                  <td data-label="Status">{item.status || "N/A"}</td>
+                  <td data-label="Actions" className="action-buttons">
+                    <button
+                      className="delete-btn"
+                      onClick={() => handleDelete(item._id)}
+                    >
+                      <RiDeleteBin6Line /> Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

@@ -1,5 +1,7 @@
 .blog-card {
-  width: 55vh;
+  width: 55vh; /* Fallback for larger screens */
+  max-width: 90%; /* Ensure card doesn't exceed screen width on mobile */
+  margin: 0 auto; /* Center the card */
   background: #fff;
   border-radius: 10px;
   overflow: hidden;
@@ -13,11 +15,12 @@
 
 .blog-image {
   height: 200px;
-  & img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+}
+
+.blog-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .blog-content {
@@ -80,10 +83,83 @@
 .approve-btn:hover {
   background: #45a049;
 }
+
 .deletes-btn {
   background: #ff6f61;
   color: white;
 }
+
 .deletes-btn:hover {
   background: #e65a50;
+}
+
+/* Tablet and smaller screens */
+@media (max-width: 768px) {
+  .blog-card {
+    width: 100%; /* Full width on tablets */
+    max-width: 600px;
+  }
+
+  .blog-image {
+    height: 180px; /* Slightly smaller image height */
+  }
+
+  .blog-content {
+    padding: 1rem; /* Reduced padding */
+  }
+
+  .blog-title {
+    font-size: 1.1rem; /* Slightly smaller title */
+  }
+
+  .blog-description {
+    font-size: 0.85rem; /* Slightly smaller description */
+  }
+
+  .blog-actions {
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 8px;
+  }
+
+  .review-btn,
+  .approve-btn,
+  .deletes-btn {
+    padding: 10px; /* Slightly larger padding for touch targets */
+    font-size: 0.85rem;
+  }
+}
+
+/* Mobile screens */
+@media (max-width: 480px) {
+  .blog-card {
+    max-width: 100%; /* Full width on mobile */
+  }
+
+  .blog-image {
+    height: 150px; /* Smaller image height for mobile */
+  }
+
+  .blog-content {
+    padding: 0.75rem; /* Further reduced padding */
+  }
+
+  .blog-category {
+    font-size: 0.8rem;
+  }
+
+  .blog-title {
+    font-size: 1rem;
+  }
+
+  .blog-description {
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+
+  .review-btn,
+  .approve-btn,
+  .deletes-btn {
+    padding: 8px;
+    font-size: 0.8rem;
+  }
 }

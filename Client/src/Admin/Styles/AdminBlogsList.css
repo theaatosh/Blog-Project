@@ -1,12 +1,12 @@
 .user-details-main {
   min-height: 100vh;
-  padding-left: 2rem;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: 10rem;
-  /* border: 1px solid red; */
-  width: 100vh;
+  margin-left: 10rem; /* Fallback for larger screens */
+  width: 100%; /* Corrected from 100vh */
+  box-sizing: border-box;
 }
 
 .blog-list-text {
@@ -122,4 +122,111 @@
 .delete-btn:hover {
   background: #c0392b;
   transform: translateY(-2px);
+}
+
+/* Tablet and smaller screens */
+@media (max-width: 768px) {
+  .user-details-main {
+    margin-left: 0; /* Remove sidebar offset */
+    padding: 1.5rem;
+    width: 100%;
+  }
+
+  .blog-list-text {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .bloglist-search-container {
+    max-width: 500px;
+  }
+
+  .search-input {
+    padding: 10px 15px;
+    font-size: 0.95rem;
+  }
+
+  .user-details-container {
+    padding: 1rem;
+    max-width: 100%;
+  }
+
+  .user-table th,
+  .user-table td {
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+
+  .action-buttons {
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 8px;
+  }
+
+  .edit-btn,
+  .delete-btn {
+    padding: 10px;
+    font-size: 0.85rem;
+    width: 100%; /* Full-width buttons */
+  }
+}
+
+/* Mobile screens */
+@media (max-width: 480px) {
+  .user-details-main {
+    padding: 1rem;
+  }
+
+  .blog-list-text {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .bloglist-search-container {
+    max-width: 100%;
+  }
+
+  .search-input {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+
+  .user-details-container {
+    padding: 0.75rem;
+  }
+
+  .user-table {
+    display: block; /* Convert table to block for mobile */
+    overflow-x: auto; /* Allow horizontal scrolling if needed */
+  }
+
+  .user-table th {
+    display: none; /* Hide table headers */
+  }
+
+  .user-table td {
+    display: block;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding: 10px 10px 10px 50%; /* Space for pseudo-label */
+    font-size: 0.8rem;
+    border-right: none; /* Remove vertical borders */
+  }
+
+  .user-table td:before {
+    content: attr(data-label); /* Use data-label attribute for column name */
+    position: absolute;
+    left: 10px;
+    width: 45%;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: black;
+  }
+
+  .edit-btn,
+  .delete-btn {
+    padding: 8px;
+    font-size: 0.8rem;
+    width: 100%;
+  }
 }
