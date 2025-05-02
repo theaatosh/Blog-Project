@@ -20,8 +20,8 @@ const Blogs = () => {
     const fetchBlogsData=async()=>{
     try{
       setIsLoading(true);
-        const res=await axios.get(`${url}/blog/${selectedCategory}`);
-        
+        const res=await axios.get(`${url}/blog/fetch/${selectedCategory}`);
+        console.log(res)
         setBlogData(res.data.blogs)
     }catch(err){
         console.log(err.response.data.message);

@@ -4,7 +4,7 @@ import styles from "./SingleBlog.module.css";
 import { storeContext } from "../../context/StoreContext";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import showAlert from "../../utils/sweetAlert";
 
 const SingleBlog = () => {
   const { url, user } = useContext(storeContext);
@@ -15,12 +15,22 @@ const SingleBlog = () => {
   const [singleBlog, setSingleBlog] = useState(null);
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState("");
-  const [replyText, setReplyText] = useState({});
+  const [showAllComments, setShowAllComments] = useState(false);
+
+  // Category colors
+  const categoryColors = {
+    Fashion: { bg_color: "#F3E8FF", color: "#6B46C1" },
+    Tech: { bg_color: "#E6F3FA", color: "#2B6CB0" },
+    Entertainment: { bg_color: "#FEF3C7", color: "#D69E2E" },
+    Health: { bg_color: "#D1FAE5", color: "#276749" },
+    Travel: { bg_color: "#E6FFFA", color: "#319795" },
+  };
 
   // Fetch only blog details (no comments)
   const fetchSingleBlog = async () => {
     try {
       const res = await axios.get(`${url}/blog/full/${id}`);
+      console.log(res)
       setSingleBlog(res?.data?.blog);
     } catch (err) {
       console.error(err.response?.data?.message || "Failed to fetch blog");
@@ -30,10 +40,8 @@ const SingleBlog = () => {
   // Fetch comments separately
   const fetchComments = async () => {
     try {
-      const res = await axios.get(`${url}/comment/get/${id}`,{withCredentials:true});
-      console.log(res);
-      
-      setComments(res?.data?.comments || []);
+      const res = await axios.get(`${url}/comment/get/${id}`, { withCredentials: true });
+      setComments(res?.data?.data || []);
     } catch (err) {
       console.error(err.response?.data?.message || "Failed to fetch comments");
     }
@@ -41,7 +49,7 @@ const SingleBlog = () => {
 
   const handleLike = async (blogId) => {
     if (!user) {
-      toast.error("Please log in to like the blog!");
+      showAlert("Error", "Please log in to like the blog!", "error");
       navigate("/login");
       return;
     }
@@ -57,69 +65,51 @@ const SingleBlog = () => {
           : prev.blogLikedUser.filter((id) => id !== userId),
         blogLikedCounter: likeCount,
       }));
-      toast.success(isLiked ? "Blog liked!" : "Blog unliked!");
     } catch (err) {
-      toast.error(err?.response?.data?.message || "Failed to toggle like");
+      showAlert("Error", err?.response?.data?.message || "Failed to toggle like", "error");
     }
   };
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     if (!user) {
-      toast.error("Please log in to comment!");
+      showAlert("Error", "Please log in to comment!", "error");
       navigate("/login");
       return;
     }
     if (!commentText.trim()) {
-      toast.error("Comment cannot be empty!");
+      showAlert("Error", "Comment cannot be empty!", "error");
       return;
     }
 
     try {
-      // Add comment via API
       await axios.post(
         `${url}/comment/add/${id}`,
         { commentText },
         { withCredentials: true }
       );
-      // Fetch updated comments after adding
       await fetchComments();
       setCommentText("");
-      toast.success("Comment added!");
     } catch (err) {
-      toast.error(err.response?.data?.message || "Failed to add comment");
-    }
-  };
-
-  const handleReplySubmit = async (commentId) => {
-    if (!user) {
-      toast.error("Please log in to reply!");
-      navigate("/login");
-      return;
-    }
-    const text = replyText[commentId]?.trim();
-    if (!text) return;
-
-    try {
-      const res = await axios.post(`${url}/blog/comment/${id}/reply`, { commentId, text });
-      setComments((prev) =>
-        prev.map((c) =>
-          c._id === commentId ? { ...c, replies: [...(c.replies || []), res.data.reply] } : c
-        )
-      );
-      setReplyText((prev) => ({ ...prev, [commentId]: "" }));
-      toast.success("Reply added!");
-    } catch (err) {
-      toast.error(err.response?.data?.message || "Failed to add reply");
+      showAlert("Error", err.response?.data?.message || "Failed to add comment", "error");
     }
   };
 
   useEffect(() => {
-    fetchSingleBlog(); // Fetch blog only
-    fetchComments(); // Fetch comments separately
+    fetchSingleBlog();
+    fetchComments();
   }, [id]);
 
   const isLiked = singleBlog?.blogLikedUser?.includes(userId);
+  const categoryStyle = singleBlog?.category
+    ? {
+        backgroundColor: categoryColors[singleBlog.category]?.bg_color || "#f1f2f6",
+        color: categoryColors[singleBlog.category]?.color || "#636e72",
+      }
+    : {};
+
+  // Determine comments to display
+  const displayedComments = showAllComments ? comments : comments.slice(0, 2);
 
   return (
     <div className={styles.outer_container}>
@@ -128,12 +118,12 @@ const SingleBlog = () => {
         <div className={styles.author_con}>
           <div className={styles.author_left}>
             <img
-              src={singleBlog?.authorImage || "/user.png"}
+              src={singleBlog?.createdBy?.photo || "/user.png"}
               alt="author"
               className={styles.author_img}
             />
             <div className={styles.profile_details}>
-              <h3>{singleBlog?.authorName}</h3>
+              <h3>{singleBlog?.createdBy?.fullName}</h3>
               <p>{new Date(singleBlog?.createdAt).toLocaleDateString()}</p>
             </div>
           </div>
@@ -148,7 +138,7 @@ const SingleBlog = () => {
 
         <div className={styles.blog_details}>
           <div className={styles.meta_info}>
-            <h3>{singleBlog?.category}</h3>
+            <h3 style={categoryStyle}>{singleBlog?.category}</h3>
             <button
               onClick={() => handleLike(singleBlog?._id)}
               className={styles.like_btn}
@@ -161,7 +151,7 @@ const SingleBlog = () => {
           <p>{singleBlog?.blogContent}</p>
         </div>
 
-        {/* Separate Comments Container */}
+        {/* Comments Container */}
         <div className={styles.comments_container}>
           <h3>Comments ({comments.length})</h3>
           <form onSubmit={handleCommentSubmit} className={styles.comment_form}>
@@ -177,16 +167,16 @@ const SingleBlog = () => {
           </form>
 
           <div className={styles.comments_list}>
-            {comments.length > 0 ? (
-              comments.map((comment) => (
+            {displayedComments.length > 0 ? (
+              displayedComments.map((comment) => (
                 <div key={comment._id} className={styles.comment}>
                   <div className={styles.comment_header}>
-                    <span>{comment.authorName || "Anonymous"}</span>
+                    <span>{comment?.userId?.fullName || "Anonymous"}</span>
                     <span>{new Date(comment.createdAt).toLocaleDateString()}</span>
                   </div>
-                  <p>{comment.text}</p>
-
-                  <div className={styles.reply_section}>
+                  <p>{comment.commentText}</p>
+                  {/* Commenting out reply section */}
+                  {/* <div className={styles.reply_section}>
                     <form
                       onSubmit={(e) => {
                         e.preventDefault();
@@ -216,13 +206,22 @@ const SingleBlog = () => {
                         <p>{reply.text}</p>
                       </div>
                     ))}
-                  </div>
+                  </div> */}
                 </div>
               ))
             ) : (
               <p>No comments yet. Be the first to comment!</p>
             )}
           </div>
+
+          {comments.length > 2 && (
+            <button
+              className={styles.toggle_comments_btn}
+              onClick={() => setShowAllComments(!showAllComments)}
+            >
+              {showAllComments ? "Show Less" : "View All Comments"}
+            </button>
+          )}
         </div>
       </div>
     </div>

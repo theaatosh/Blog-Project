@@ -9,7 +9,6 @@ export const Home = () => {
     <div >
      <Hero/>
       <SearchBlog/>
-     
     </div>
       
 

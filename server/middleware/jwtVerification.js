@@ -1,6 +1,7 @@
 import {User} from "../model/user.js";
 import jwt from "jsonwebtoken";
 const verifyjwt =async (req, res, next) => {
+  console.log("hello")
   try {
     const token = req.cookies.jwt;
     

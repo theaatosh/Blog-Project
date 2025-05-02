@@ -1,17 +1,45 @@
-import React from "react";
 import "./BlogReviewCard.Module.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+const BlogReviewCard = ({
+  id,
+  category,
+  title,
+  description,
+  image,
+  getblogs,
+}) => {
+  const Navigate = useNavigate();
 
-const BlogReviewCard = ({ category, title, description, image }) => {
-  const navigate = useNavigate();
-
-  const handleReviewClick = () => {
-    // Navigate to the review page and pass the blog details as state
-    navigate("/admin/adminreviewpage", {
-      state: { category, title, description, image },
-    });
-  };
-  console.log(category, title);
+  async function approveBlog() {
+    console.log("Approving blog with ID:", id);
+    try {
+      const res = await axios.patch(
+        `http://localhost:5010/admin/blog/approve/${id}`
+      );
+      if (res.status === 200) {
+        alert("Blog approved successfully");
+        getblogs();
+        Navigate("/admin/adminblogs");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async function rejectBlog() {
+    console.log("Rejecting blog with ID:", id);
+    try {
+      const res = await axios.patch(
+        `http://localhost:5010/admin/blog/reject/${id}`
+      );
+      if (res.status === 200) {
+        alert("Blog rejected successfully");
+        getblogs();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
   return (
     <div className="blog-card">
       <div className="blog-image">
@@ -22,11 +50,15 @@ const BlogReviewCard = ({ category, title, description, image }) => {
         <h3 className="blog-title">{title}</h3>
         <p className="blog-description">{description}</p>
         <div className="blog-actions">
-          <button className="approve-btn">Approve</button>
-          <button className="review-btn" onClick={handleReviewClick}>
-            Review
+          <button className="approve-btn" onClick={approveBlog}>
+            Approve
           </button>
-          <button className="deletes-btn">Delete</button>
+          <Link to={`/admin/adminreviewpage/${id}`}>
+            <button className="review-btn">Review</button>
+          </Link>
+          <button className="deletes-btn" onClick={rejectBlog}>
+            Reject
+          </button>
         </div>
       </div>
     </div>
